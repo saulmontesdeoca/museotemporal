@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Museo Temporal</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="./css/main.css" />
+
+		<script src="./js/libs/three.js/three.js"></script>
+        <script src="./js/libs/three.js/controls/PointerLockControls.js"></script>
+        <script src="./js/libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+        <script src="./js/libs/jquery-ui/jquery-ui.js"></script>
+        <script src="./js/main.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(
+                    function() {
+        
+                        var canvas = document.getElementById("webglcanvas");
+        
+                        // create the scene
+                        createScene(canvas);
+                        
+                        run();
+                    }
+            );
+        
+        </script>
+    </head>
+    
+	<body>
+
+		<div id="blocker">
+
+			<div id="instructions">
+				<span style="font-size:40px">Click to play</span>
+				<br />
+				(W, A, S, D = Move, MOUSE = Look around)
+            </div>
+        </div>
+
+        <div id="container">
+            <canvas id="webglcanvas"></canvas>
+        </div>
+        
+	</body>
+</html>

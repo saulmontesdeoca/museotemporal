@@ -29,7 +29,8 @@ Las propuesta de arte que tenemos son las siguientes.
 <img src="https://www.caracteristicas.co/wp-content/uploads/2018/10/surrealismo-1-e1581904190192.jpg" style="width:200px !important; height: 200px !important">
 
 <img src="https://66.media.tumblr.com/6150f2539bccb463e7ce43c406d7c6c8/tumblr_nyi5z4dOzX1siyef3o1_400.gif" style="width:200px !important; height: 200px !important">
-
+ 
+<img src="https://www.infobae.com/new-resizer/IfNeN-2Lxxt-OggO9qc4r7szoLQ=/420x420/filters:format(jpg):quality(85)//arc-anglerfish-arc2-prod-infobae.s3.amazonaws.com/public/VLNWA645WNGMPAQ4FULX4BX76Y.jpg">
 <img src="http://static.tumblr.com/y4vcmrq/qJalv4mqg/dali_-_surrealismo.jpg" style="width:200px !important; height: 200px !important">
 
 <img src="https://th.bing.com/th/id/OIP.d3ux-H5OOt65oqfPHvPG3AHaH0?pid=Api&rs=1" style="width:200px !important; height: 200px !important">
@@ -50,7 +51,7 @@ Las propuesta de arte que tenemos son las siguientes.
 
 <img src="https://i.pinimg.com/736x/b6/a2/f0/b6a2f0bcc9b4711d2a54944cf11ba2c9.jpg" style="width:200px !important; height: 200px !important">
 
-<img src="https://s-media-cache-ak0.pinimg.com/736x/e2/51/14/e251140badccaf3d64371eb4ac69c4b9.jpg style="width:200px; height: 200px;" style="width:200px !important; height: 200px !important">
+<img src="https://s-media-cache-ak0.pinimg.com/736x/e2/51/14/e251140badccaf3d64371eb4ac69c4b9.jpg" style="width:200px !important; height: 200px !important">
 
 <img src="https://i.ytimg.com/vi/YuZXbYTI0Mo/maxresdefault.jpg" style="width:200px; height: 200px;" style="width:200px !important; height: 200px !important">
 

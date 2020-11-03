@@ -12,45 +12,51 @@ Se busca crear un museo temporal interactivo que le permita al usuario explorar 
 En cuanto a las obras, esculturas, cuadros, etc que son el atractivo principal del proyecto se tiene planeado que estas sean objetos con diseños extravagantes ya sean figuras imposibles, arte abstracto, surrealismo, arte digital, entre otras. Este arte que haremos por medio de 3js además del diseño complejo que puedan llegar a tener algunas usarán animaciones para hacer un proyecto donde apliquemos la mayoría de conceptos aprendidos en la clase.
 Las propuesta de arte que tenemos son las siguientes.
 
-<img src="http://img2.rtve.es/v/4124678?w=1600&preview=1500547888566.jpg" style="width:200px; height: 200px;">
+<img src="http://img2.rtve.es/v/4124678?w=1600&preview=1500547888566.jpg" style="width:200px !important; height: 200px !important;">
 
-<img src="https://th.bing.com/th/id/OIP.5KpQ3fMHgDo1liPsBt7OPAHaHa?pid=Api&rs=1" style="width:200px; height: 200px;">
+<img src="https://th.bing.com/th/id/OIP.5KpQ3fMHgDo1liPsBt7OPAHaHa?pid=Api&rs=1" style="width:200px !important; height: 200px !important;>
 
-<img src="https://get.wallhere.com/photo/digital-art-pixel-art-sunset-neon-1492367.jpg" style="width:200px; height: 200px;">
+<img src="https://get.wallhere.com/photo/digital-art-pixel-art-sunset-neon-1492367.jpg" style="width:200px !important; height: 200px !important;>
 
-<img src="http://4.bp.blogspot.com/-chI3X1nI948/Uoli2HT-V4I/AAAAAAAAnJ0/QDalhfJlxsY/s1600/pintura-surrealista.jpg" style="width:200px; height: 200px;">
+<img src="http://4.bp.blogspot.com/-chI3X1nI948/Uoli2HT-V4I/AAAAAAAAnJ0/QDalhfJlxsY/s1600/pintura-surrealista.jpg" style="width:200px !important; height: 200px !important";>
 
-<img src="http://2.bp.blogspot.com/-fNFQfDWGkPY/UZ1OPbN7GLI/AAAAAAAAYfE/tBeY9Di9buA/s1600/surrealismo-pintura-paisaje+(2).jpg" style="width:200px; height: 200px;">
+<img src="http://2.bp.blogspot.com/-fNFQfDWGkPY/UZ1OPbN7GLI/AAAAAAAAYfE/tBeY9Di9buA/s1600/surrealismo-pintura-paisaje+(2).jpg" style="width:200px !important; height: 200px !important";>
 
-<img src="https://www.guiaestudo.com.br/wp-content/uploads/2019/03/surrealismo-1.jpg" style="width:200px; height: 200px;">
+<img src="https://www.guiaestudo.com.br/wp-content/uploads/2019/03/surrealismo-1.jpg" style="width:200px !important; height: 200px !important";>
 
-<img src="https://culturizando.com/wp-content/uploads/2019/09/surrealismo.png" style="width:200px; height: 200px;">
+<img src="https://culturizando.com/wp-content/uploads/2019/09/surrealismo.png" style="width:200px !important; height: 200px !important";>
 
-<img src="https://www.caracteristicas.co/wp-content/uploads/2018/10/surrealismo-1-e1581904190192.jpg" style="width:200px; height: 200px;">
+<img src="https://www.caracteristicas.co/wp-content/uploads/2018/10/surrealismo-1-e1581904190192.jpg" style="width:200px !important; height: 200px !important";>
 
-<img src="https://66.media.tumblr.com/6150f2539bccb463e7ce43c406d7c6c8/tumblr_nyi5z4dOzX1siyef3o1_400.gif" style="width:200px; height: 200px;">
+<img src="https://66.media.tumblr.com/6150f2539bccb463e7ce43c406d7c6c8/tumblr_nyi5z4dOzX1siyef3o1_400.gif" style="width:200px !important; height: 200px !important";>
 
-<img src="http://static.tumblr.com/y4vcmrq/qJalv4mqg/dali_-_surrealismo.jpg" style="width:200px; height: 200px;">
+<img src="http://static.tumblr.com/y4vcmrq/qJalv4mqg/dali_-_surrealismo.jpg" style="width:200px !important; height: 200px !important";>
 
-<img src="https://th.bing.com/th/id/OIP.d3ux-H5OOt65oqfPHvPG3AHaH0?pid=Api&rs=1" style="width:200px; height: 200px;">
+<img src="https://th.bing.com/th/id/OIP.d3ux-H5OOt65oqfPHvPG3AHaH0?pid=Api&rs=1" style="width:200px !important; height: 200px !important";>
 
-<img src="https://th.bing.com/th/id/OIP.jetQrjOpmL7QUVMjPNOOnAHaH6?pid=Api&rs=1" style="width:200px; height: 200px;">
+<img src="https://th.bing.com/th/id/OIP.jetQrjOpmL7QUVMjPNOOnAHaH6?pid=Api&rs=1" style="width:200px !important; height: 200px !important";>
 
-<img src="https://ae01.alicdn.com/kf/HTB1VITwKVXXXXbpXFXXq6xXFXXXn/A3490-Pintura-Abstracta-de-Color-guila-Animal-Ave-HD-Impresi-n-De-La-Lona-la-decoraci.jpg" style="width:200px; height: 200px;">
+<img src="https://www.infobae.com/new-resizer/IfNeN-2Lxxt-OggO9qc4r7szoLQ=/420x420/filters:format(jpg):quality(85)//arc-anglerfish-arc2-prod-infobae.s3.amazonaws.com/public/VLNWA645WNGMPAQ4FULX4BX76Y.jpg" style="width:200px !important; height: 200px !important";>
 
-<img src="https://thumbs.dreamstime.com/z/pintura-del-arte-abstracto-con-la-calle-de-par%C3%ADs-116731447.jpg" style="width:200px; height: 200px;">
+<img src="https://lamenteesmaravillosa.com/wp-content/uploads/2013/12/ilusion-optica.jpg" style="width:200px !important; height: 200px !important";>
 
-<img src="http://img2.rtve.es/v/1129129?w=1600&preview=1308073470543.jpg" style="width:200px; height: 200px;">
+<img src="https://clinicavirgendelujan.com/blog/wp-content/uploads/2019/02/que-son-ilusiones-opticas.jpg" style="width:200px !important; height: 200px !important";>
 
-<img src="https://i.pinimg.com/736x/b6/a2/f0/b6a2f0bcc9b4711d2a54944cf11ba2c9.jpg" style="width:200px; height: 200px;">
+<img src="https://ae01.alicdn.com/kf/HTB1VITwKVXXXXbpXFXXq6xXFXXXn/A3490-Pintura-Abstracta-de-Color-guila-Animal-Ave-HD-Impresi-n-De-La-Lona-la-decoraci.jpg" style="width:200px; height: 200px;" style="width:200px !important; height: 200px !important";>
 
-<img src="https://s-media-cache-ak0.pinimg.com/736x/e2/51/14/e251140badccaf3d64371eb4ac69c4b9.jpg" style="width:200px; height: 200px;">
+<img src="https://thumbs.dreamstime.com/z/pintura-del-arte-abstracto-con-la-calle-de-par%C3%ADs-116731447.jpg" style="width:200px; height: 200px;" style="width:200px !important; height: 200px !important";>
 
-<img src="https://i.ytimg.com/vi/YuZXbYTI0Mo/maxresdefault.jpg" style="width:200px; height: 200px;">
+<img src="http://img2.rtve.es/v/1129129?w=1600&preview=1308073470543.jpg" style="width:200px !important; height: 200px !important";>
 
-<img src="https://images.blogthings.com/theimpossiblefiguretest/impossible-2.png" style="width:200px; height: 200px;">
+<img src="https://i.pinimg.com/736x/b6/a2/f0/b6a2f0bcc9b4711d2a54944cf11ba2c9.jpg" style="width:200px !important; height: 200px !important";>
 
-<img src="https://plasticaescolabetulia.files.wordpress.com/2015/01/jose-maria-yturralde-figura-imposible-hexagono-1974-copia.jpg" style="width:200px; height: 200px;">
+<img src="https://s-media-cache-ak0.pinimg.com/736x/e2/51/14/e251140badccaf3d64371eb4ac69c4b9.jpg style="width:200px; height: 200px;" style="width:200px !important; height: 200px !important";>
+
+<img src="https://i.ytimg.com/vi/YuZXbYTI0Mo/maxresdefault.jpg" style="width:200px; height: 200px;" style="width:200px !important; height: 200px !important";>
+
+<img src="https://images.blogthings.com/theimpossiblefiguretest/impossible-2.png" style="width:200px !important; height: 200px !important";>
+
+<img src="https://plasticaescolabetulia.files.wordpress.com/2015/01/jose-maria-yturralde-figura-imposible-hexagono-1974-copia.jpg" style="width:200px !important; height: 200px !important";>
 
 
 # 👏 Contributors

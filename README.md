@@ -29,15 +29,12 @@ Las propuesta de arte que tenemos son las siguientes.
 <img src="https://www.caracteristicas.co/wp-content/uploads/2018/10/surrealismo-1-e1581904190192.jpg" style="width:200px !important; height: 200px !important">
 
 <img src="https://66.media.tumblr.com/6150f2539bccb463e7ce43c406d7c6c8/tumblr_nyi5z4dOzX1siyef3o1_400.gif" style="width:200px !important; height: 200px !important">
- 
-<img src="https://www.infobae.com/new-resizer/IfNeN-2Lxxt-OggO9qc4r7szoLQ=/420x420/filters:format(jpg):quality(85)//arc-anglerfish-arc2-prod-infobae.s3.amazonaws.com/public/VLNWA645WNGMPAQ4FULX4BX76Y.jpg">
-<img src="http://static.tumblr.com/y4vcmrq/qJalv4mqg/dali_-_surrealismo.jpg" style="width:200px !important; height: 200px !important">
+
+<img src="https://fotografias.antena3.com/clipping/cmsimages01/2018/10/15/D6DB9B87-912B-4ECA-9CCF-9378B966DB45/64.jpg">
 
 <img src="https://th.bing.com/th/id/OIP.d3ux-H5OOt65oqfPHvPG3AHaH0?pid=Api&rs=1" style="width:200px !important; height: 200px !important">
 
 <img src="https://th.bing.com/th/id/OIP.jetQrjOpmL7QUVMjPNOOnAHaH6?pid=Api&rs=1" style="width:200px !important; height: 200px !important">
-
-<img src="https://www.infobae.com/new-resizer/IfNeN-2Lxxt-OggO9qc4r7szoLQ=/420x420/filters:format(jpg):quality(85)//arc-anglerfish-arc2-prod-infobae.s3.amazonaws.com/public/VLNWA645WNGMPAQ4FULX4BX76Y.jpg" style="width:200px !important; height: 200px !important">
 
 <img src="https://lamenteesmaravillosa.com/wp-content/uploads/2013/12/ilusion-optica.jpg" style="width:200px !important; height: 200px !important">
 

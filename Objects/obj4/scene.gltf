@@ -1,0 +1,554 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 18,
+      "max": [
+        2.9555847644805908,
+        -0.52042603492736816,
+        1.5138359069824219
+      ],
+      "min": [
+        2.4073030948638916,
+        -1.3108625411987305,
+        1.3908998966217041
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 216,
+      "componentType": 5126,
+      "count": 18,
+      "max": [
+        0,
+        0,
+        1
+      ],
+      "min": [
+        0,
+        -0.96558660268783569,
+        0.26008182764053345
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 18,
+      "max": [
+        1,
+        0,
+        0,
+        1
+      ],
+      "min": [
+        1,
+        -1.828989937280312e-08,
+        0,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 18,
+      "max": [
+        1,
+        1
+      ],
+      "min": [
+        0,
+        0
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 48,
+      "max": [
+        17
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 432,
+      "componentType": 5126,
+      "count": 82,
+      "max": [
+        2.7593891620635986,
+        -0.54416030645370483,
+        1.6930439472198486
+      ],
+      "min": [
+        -0.44737765192985535,
+        -0.54473447799682617,
+        -0.18685752153396606
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 1416,
+      "componentType": 5126,
+      "count": 82,
+      "max": [
+        0.1449025571346283,
+        1,
+        0.085209406912326813
+      ],
+      "min": [
+        -0.048953071236610413,
+        0.98944520950317383,
+        -0.083040952682495117
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 288,
+      "componentType": 5126,
+      "count": 82,
+      "max": [
+        0.99999988079071045,
+        0.048607926815748215,
+        0.017814906314015388,
+        1
+      ],
+      "min": [
+        0.98933839797973633,
+        -0.14486849308013916,
+        -0.026486676186323166,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 144,
+      "componentType": 5126,
+      "count": 82,
+      "max": [
+        0.9568026065826416,
+        0.98153316974639893
+      ],
+      "min": [
+        0.042071044445037842,
+        0.03604474663734436
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 192,
+      "componentType": 5125,
+      "count": 438,
+      "max": [
+        81
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 2400,
+      "componentType": 5126,
+      "count": 3752,
+      "max": [
+        2.8192429542541504,
+        -0.16816645860671997,
+        1.745245099067688
+      ],
+      "min": [
+        -0.48742961883544922,
+        -0.57796245813369751,
+        -0.21525609493255615
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 47424,
+      "componentType": 5126,
+      "count": 3752,
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 1600,
+      "componentType": 5126,
+      "count": 3752,
+      "max": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "min": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 1944,
+      "componentType": 5125,
+      "count": 6360,
+      "max": [
+        3751
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "v124entkl (https://sketchfab.com/v124entkl)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/models/aaeae572d5484d13a4b62e3180203ef7",
+      "title": "Optical illusion"
+    },
+    "generator": "Sketchfab-3.20.7",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 27384,
+      "byteOffset": 0,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 800,
+      "byteOffset": 27384,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 92448,
+      "byteOffset": 28184,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 61632,
+      "byteOffset": 120632,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 182264,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/Material_normal.png"
+    },
+    {
+      "uri": "textures/waterfall_png_by_dbszabo1-d50y15c_baseColor.png"
+    },
+    {
+      "uri": "textures/waterfall_png_by_dbszabo1-d50y15c_normal.png"
+    }
+  ],
+  "materials": [
+    {
+      "alphaMode": "BLEND",
+      "doubleSided": true,
+      "name": "waterfall_png_by_dbszabo1-d50y15c",
+      "normalTexture": {
+        "index": 2,
+        "scale": 1,
+        "texCoord": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseColorTexture": {
+          "index": 1,
+          "texCoord": 0
+        },
+        "metallicFactor": 0.73134176390000005,
+        "roughnessFactor": 0.3063940852
+      }
+    },
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "name": "Material",
+      "normalTexture": {
+        "index": 0,
+        "scale": 1,
+        "texCoord": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.1235911568,
+          0.35574706900000003,
+          0.65924126859999999,
+          1
+        ],
+        "metallicFactor": 1,
+        "roughnessFactor": 0.029664525399999975
+      }
+    },
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "name": "Material.002",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.80000000000000004,
+          0.80000000000000004,
+          0.80000000000000004,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.94161421099999998
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "waterfall_png_by_dbszabo1-d50y15c_waterfall_png_by_dbszabo1-d50y15c_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "waterfall_png_by_dbszabo1-d50y15c_Material_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 6,
+            "POSITION": 5,
+            "TANGENT": 7,
+            "TEXCOORD_0": 8
+          },
+          "indices": 9,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "waterfall_png_by_dbszabo1-d50y15c_Material.002_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 11,
+            "POSITION": 10,
+            "TANGENT": 12
+          },
+          "indices": 13,
+          "material": 2,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "RootNode (gltf orientation matrix)",
+      "rotation": [
+        -0.70710678118654746,
+        -0,
+        -0,
+        0.70710678118654757
+      ]
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "RootNode (model correction matrix)"
+    },
+    {
+      "children": [
+        3
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "7639d59f73d14b56823bc489a3d02342.fbx"
+    },
+    {
+      "children": [
+        4,
+        8
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        5,
+        6,
+        7
+      ],
+      "matrix": [
+        -643.75360107417021,
+        -7.8837078699505195e-14,
+        0.00025068690799005127,
+        0,
+        -2.4932375402392022e-11,
+        1454.2655029296861,
+        -6.3567964248659119e-05,
+        0,
+        -0.0004346568462943316,
+        -4.8789811877540528e-05,
+        -1116.1807861327272,
+        0,
+        162.68934631347656,
+        761.6363525390625,
+        795.625244140625,
+        1
+      ],
+      "name": "waterfall_png_by_dbszabo1-d50y15c"
+    },
+    {
+      "mesh": 0,
+      "name": "waterfall_png_by_dbszabo1-d50y15c_waterfall_png_by_dbszabo1-d50y15c_0"
+    },
+    {
+      "mesh": 1,
+      "name": "waterfall_png_by_dbszabo1-d50y15c_Material_0"
+    },
+    {
+      "mesh": 2,
+      "name": "waterfall_png_by_dbszabo1-d50y15c_Material.002_0"
+    },
+    {
+      "children": [
+        9
+      ],
+      "matrix": [
+        -65.155798008112953,
+        -44.527134776210595,
+        -61.417068104454131,
+        0,
+        -32.40131143440054,
+        89.5395681730745,
+        -30.542114345773925,
+        0,
+        68.592105983538403,
+        -2.2820137296486465e-05,
+        -72.767595787840293,
+        0,
+        754.81842041015625,
+        1033.03076171875,
+        1009.2022705078125,
+        1
+      ],
+      "name": "Camera"
+    },
+    {
+      "name": ""
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "OSG_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    }
+  ]
+}
+

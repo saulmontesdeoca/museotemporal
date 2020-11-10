@@ -97,6 +97,23 @@ function createObject(path){
     });
 }
 
+function createObjectGLTF(path){
+    const loader = new THREE.GLTFLoader();
+
+    loader.load( path, function ( gltf ) {
+        //gltf.scene.scale.set(4,4,4) // scale here
+        gltf.scene.position.x = 100; // once rescaled, position the model where needed
+        gltf.scene.position.z = -100;
+        gltf.scene.position.y = 30; // once rescaled, position the model where needed
+        scene.add( gltf.scene );
+    
+    }, undefined, function ( error ) {
+    
+        console.error( error );
+    
+    } );
+}
+
 
 function createScene(canvas) 
 {    
@@ -133,8 +150,9 @@ function createScene(canvas)
     let floor = new THREE.Mesh(floorGeometry, new THREE.MeshPhongMaterial({color:0xffffff, map:map, side:THREE.DoubleSide}));
     floor.rotation.x = -Math.PI / 2;
     scene.add( floor );
-    
-    createObject('./Objects/Tree/source/Tree/Temple_MESH.obj');
+    //createObjectGLTF('./Objects/Dino/scene.gltf');
+    createObjectGLTF('./Objects/obj5/scene.gltf');
+    //createObject('./Objects/Tree/source/Tree/Temple_MESH.obj');
 
     initPointerLock();
 }

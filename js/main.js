@@ -90,6 +90,13 @@ function onKeyUp( event ) {
 
     }
 }
+function createObject(path){
+    const objLoader = new THREE.OBJLoader();
+    objLoader.load(path, (root) => {
+        scene.add(root);
+    });
+}
+
 
 function createScene(canvas) 
 {    
@@ -126,6 +133,8 @@ function createScene(canvas)
     let floor = new THREE.Mesh(floorGeometry, new THREE.MeshPhongMaterial({color:0xffffff, map:map, side:THREE.DoubleSide}));
     floor.rotation.x = -Math.PI / 2;
     scene.add( floor );
+    
+    createObject('./Objects/Tree/source/Tree/Temple_MESH.obj');
 
     initPointerLock();
 }

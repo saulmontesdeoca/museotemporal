@@ -90,28 +90,28 @@ function onKeyUp( event ) {
 
     }
 }
-function createObject(path){
+function createObject(path,x,y,z,scale){
     const objLoader = new THREE.OBJLoader();
-    objLoader.load(path, (root) => {
-        scene.add(root);
+    objLoader.load(path, (object) => {
+        object.position.set(x,y,z);
+        object.scale.set(scale,scale,scale);
+        scene.add(object);
     });
 }
 
-function createObjectGLTF(path){
-    const loader = new THREE.GLTFLoader();
+function createMTLObject(mtlpath,path,x,y,z,scale){
+    const mtlLoader = new THREE.MTLLoader();
+    const objLoader = new THREE.OBJLoader();
 
-    loader.load( path, function ( gltf ) {
-        //gltf.scene.scale.set(4,4,4) // scale here
-        gltf.scene.position.x = 100; // once rescaled, position the model where needed
-        gltf.scene.position.z = -100;
-        gltf.scene.position.y = 30; // once rescaled, position the model where needed
-        scene.add( gltf.scene );
-    
-    }, undefined, function ( error ) {
-    
-        console.error( error );
-    
-    } );
+    mtlLoader.load(mtlpath, (materials) => {
+        materials.preload()
+        objLoader.setMaterials(materials)
+        objLoader.load(path, (object) => {
+        object.position.set(x,y,z);
+        object.scale.set(scale,scale,scale);
+          scene.add(object)
+        })
+      })
 }
 
 
@@ -132,10 +132,10 @@ function createScene(canvas)
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0xffffff );
-    scene.fog = new THREE.Fog( 0xffffff, 0, 550 );
+    scene.fog = new THREE.Fog( 0xffffff, 0, 1000 );
 
-    let light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
-    light.position.set( 0.5, 1, 0.75 );
+    let light = new THREE.AmbientLight(0XE5E5C6,2);
+    //light.position.set( 0.5, 1, 0.75 );
     scene.add( light );
 
     document.addEventListener( 'keydown', onKeyDown, false );
@@ -150,9 +150,13 @@ function createScene(canvas)
     let floor = new THREE.Mesh(floorGeometry, new THREE.MeshPhongMaterial({color:0xffffff, map:map, side:THREE.DoubleSide}));
     floor.rotation.x = -Math.PI / 2;
     scene.add( floor );
-    //createObjectGLTF('./Objects/Dino/scene.gltf');
-    createObjectGLTF('./Objects/obj5/scene.gltf');
-    //createObject('./Objects/Tree/source/Tree/Temple_MESH.obj');
+    
+    createObject('./Objects/Tree/source/Tree/Temple_MESH.obj',0,0,20,0.5);
+    createObject('./Objects/mountain.obj',-200,0,20,1.5,);
+    createObject('./Objects/elephant.obj',-300,10,20,10);
+    createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-100,0,20,1.5);
+    createMTLObject('./Objects/sea.mtl','./Objects/sea.obj',100,15,20,2);
+    createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',200,0,20,0.3);
 
     initPointerLock();
 }

@@ -113,6 +113,21 @@ function createMTLObject(mtlpath,path,x,y,z,scale){
         })
       })
 }
+function createObjectGLTF(path){
+    const loader = new THREE.GLTFLoader();
+    loader.load( path, function ( gltf ) {
+        //gltf.scene.scale.set(4,4,4) // scale here
+        gltf.scene.position.x = 100; // once rescaled, position the model where needed
+        gltf.scene.position.z = -100;
+        gltf.scene.position.y = 30; // once rescaled, position the model where needed
+        scene.add( gltf.scene );
+
+    }, undefined, function ( error ) {
+
+        console.error( error );
+
+    } );
+}
 
 
 function createScene(canvas) 
@@ -157,6 +172,7 @@ function createScene(canvas)
     createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-100,0,20,1.5);
     createMTLObject('./Objects/sea.mtl','./Objects/sea.obj',100,15,20,2);
     createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',200,0,20,0.3);
+    createObjectGLTF('./Objects/obj5/scene.gltf')
 
     initPointerLock();
 }

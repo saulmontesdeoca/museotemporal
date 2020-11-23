@@ -113,13 +113,13 @@ function createMTLObject(mtlpath,path,x,y,z,scale){
         })
       })
 }
-function createObjectGLTF(path){
+function createObjectGLTF(path, x, y ,z , scale){
     const loader = new THREE.GLTFLoader();
     loader.load( path, function ( gltf ) {
-        //gltf.scene.scale.set(4,4,4) // scale here
-        gltf.scene.position.x = 100; // once rescaled, position the model where needed
-        gltf.scene.position.z = -100;
-        gltf.scene.position.y = 30; // once rescaled, position the model where needed
+        gltf.scene.scale.set(scale,scale,scale) // scale here
+        gltf.scene.position.x = x; // once rescaled, position the model where needed
+        gltf.scene.position.z = z;
+        gltf.scene.position.y = y; // once rescaled, position the model where needed
         scene.add( gltf.scene );
 
     }, undefined, function ( error ) {
@@ -172,8 +172,11 @@ function createScene(canvas)
     createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-100,0,20,1.5);
     createMTLObject('./Objects/sea.mtl','./Objects/sea.obj',100,15,20,2);
     createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',200,0,20,0.3);
-    createObjectGLTF('./Objects/obj5/scene.gltf')
-
+    createObjectGLTF('./Objects/obj5/scene.gltf', 100, 30, -100, 1);
+    createObjectGLTF('./Objects/obj2/scene.gltf', -150, 50, -100, 5);
+    createObjectGLTF('./Objects/obj3/scene.gltf', -100, 50, -100, 0.5);
+    createObjectGLTF('./Objects/op1/scene.gltf', 10, 100, -100, 2);
+    createObjectGLTF('./Objects/Dino/scene.gltf', 10, 20, 100, 4);
     initPointerLock();
 }
 

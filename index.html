@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="./css/main.css" />
 
 		<script src="./js/libs/three.js/three.js"></script>
+		<script type="module" src="./js/libs/three.js/RectAreaLightUniformsLib.js"></script>
         <script src="./js/libs/three.js/controls/PointerLockControls.js"></script>
         <script src="./js/libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
         <script src="./js/libs/jquery-ui/jquery-ui.js"></script>
@@ -14,7 +15,9 @@
 		<script src="./js/libs/three.js/loaders/MTLLoader.js"></script>
         <script src="./js/libs/three.js/loaders/GLTFLoader.js"></script>
         <script src="./js/main.js"></script>
-
+        <!-- for square frame animation -->
+        <script src="https://cdnjs.﻿cloudflare.com/ajax/libs/gsap/2.0.1/TweenMax.min.js"></script>﻿
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TimelineMax.min.js"></script>
         <script type="text/javascript">
             $(document).ready(
                     function() {
@@ -32,11 +35,11 @@
     </head>
     
 	<body>
-
+        <audio id="audio" src="./Objects/music/cello_suit1.mp3"></audio>
 		<div id="blocker">
 
 			<div id="instructions">
-				<span style="font-size:40px">Click to play</span>
+				<span style="font-size:40px">Click to visit the Museum</span>
 				<br />
 				(W, A, S, D = Move, MOUSE = Look around)
             </div>

@@ -1,7 +1,13 @@
 let camera, scene, renderer, controls;
-let rtCamera, rtScene, renderTarget, rtframes;
+let riverFrameCamera, riverFrameScene, riverRenderTarget;
+let cubesCamera, cubesScene, cubesRenderTarget;
+let sounds =[];
+let spotlight;
+let musicGroup;
+
 let drops = [];
 let count =0;
+let paused = true;
 let objects = [];
 let blocker,  instructions, frame;
 
@@ -15,21 +21,91 @@ let velocity, direction;
 
 let floorUrl = "./js/assets/floor.jpg";
 
+function createWalls(scene){
+    let wallTexture = "./js/assets/wall_texture.jpg";
+    let texture = new THREE.TextureLoader().load(wallTexture);
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(3, 1);
+
+    const geometry = new THREE.PlaneGeometry( 1000, 180, 32 );
+    const material = new THREE.MeshPhongMaterial({ map: texture, color: 0xffffff, side:THREE.DoubleSide});
+    const footerGeometry = new THREE.PlaneGeometry( 1000, 10, 32 );
+    let map = new THREE.TextureLoader().load(floorUrl);
+    let wall = new THREE.Mesh(geometry, material);
+    let footer = new THREE.Mesh(footerGeometry, new THREE.MeshPhongMaterial({color:0xffffff, map:map, side:THREE.DoubleSide}));
+
+    // front
+    wall.position.x = 0;
+    wall.position.y = 60;
+    wall.position.z = -500.3;
+    scene.add(wall);
+    footer.position.x = 0;
+    footer.position.y = 2;
+    footer.position.z = -500.2;
+    scene.add(footer);
+
+    // back
+    wall = new THREE.Mesh(geometry, material);
+    wall.position.x = 0;
+    wall.position.y = 60;
+    wall.position.z = 500.3;
+    scene.add(wall);
+    footer = new THREE.Mesh(footerGeometry, new THREE.MeshPhongMaterial({color:0xffffff, map:map, side:THREE.DoubleSide}));
+    footer.position.x = 0;
+    footer.position.y = 2;
+    footer.position.z = 500.2;
+    scene.add(footer);
+    // right
+    wall = new THREE.Mesh(geometry, material);
+    wall.position.x = 499;
+    wall.position.y = 60;
+    wall.position.z = 0;
+    wall.rotation.y = Math.PI/2;
+
+    scene.add(wall);
+    footer = new THREE.Mesh(footerGeometry, new THREE.MeshPhongMaterial({color:0xffffff, map:map, side:THREE.DoubleSide}));
+    footer.position.x = 498.9;
+    footer.position.y = 2;
+    footer.position.z = 0;
+    footer.rotation.y = Math.PI/2;
+    scene.add(footer);
+
+    // left
+    wall = new THREE.Mesh(geometry, material);
+    wall.position.x = -499;
+    wall.position.y = 60;
+    wall.position.z = 0;
+    wall.rotation.y = Math.PI/2;
+
+    scene.add(wall);
+    footer = new THREE.Mesh(footerGeometry, new THREE.MeshPhongMaterial({color:0xffffff, map:map, side:THREE.DoubleSide}));
+    footer.position.x = -498.9;
+    footer.position.y = 2;
+    footer.position.z = 0;
+    footer.rotation.y = Math.PI/2;
+    scene.add(footer);
+
+
+
+}
+
+
+//https://codepen.io/yitliu/pen/bJoQLw
 function createRiverFrame(scene){
     const rtWidth = 512;
     const rtHeight = 700;
-    renderTarget = new THREE.WebGLRenderTarget(rtWidth, rtHeight);
+    riverRenderTarget = new THREE.WebGLRenderTarget(rtWidth, rtHeight);
     
     const aspectRatio = rtWidth / rtHeight,
         fieldOfView = 25,
         nearPlane = 1,
         farPlane = 1000; 
-    rtCamera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearPlane, farPlane);
+    riverFrameCamera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearPlane, farPlane);
 
-    rtCamera.position.set(-5,6,8);
-    rtCamera.lookAt(new THREE.Vector3(0,0,0));
+    riverFrameCamera.position.set(-5,6,8);
+    riverFrameCamera.lookAt(new THREE.Vector3(0,0,0));
 
-    rtScene = new THREE.Scene();
+    riverFrameScene = new THREE.Scene();
 
     // Color palette for the river
     let Colors = {
@@ -42,7 +118,7 @@ function createRiverFrame(scene){
     };
   
     // bg color
-    rtScene.background = new THREE.Color('#000729');
+    riverFrameScene.background = new THREE.Color('#000729');
   
     //Ambient light
     let light = new THREE.AmbientLight( 0xffffff ,.2);
@@ -54,9 +130,9 @@ function createRiverFrame(scene){
     let backLight = new THREE.DirectionalLight(0xffffff, .1);
     backLight.position.set(-100, 200, 50);
     backLight.castShadow = true;
-    rtScene.add(backLight);
-    rtScene.add(light);
-    rtScene.add(shadowLight);
+    riverFrameScene.add(backLight);
+    riverFrameScene.add(light);
+    riverFrameScene.add(shadowLight);
 
     
     // grassland left
@@ -64,7 +140,7 @@ function createRiverFrame(scene){
     let material_grass = new THREE.MeshLambertMaterial( { color: Colors.greenLight } );
     let ground_left = new THREE.Mesh( geometry_left, material_grass );
     ground_left.position.set(-1,-1.33,-1.64);
-    rtScene.add( ground_left );
+    riverFrameScene.add( ground_left );
     customizeShadow(ground_left,.25) // mess, opacity
     
     //river
@@ -72,7 +148,7 @@ function createRiverFrame(scene){
     let material_river = new THREE.MeshLambertMaterial( { color: Colors.blue } );
     let river = new THREE.Mesh( geometry_river, material_river );
     river.position.set(.5,.1,-3);
-    rtScene.add( river );
+    riverFrameScene.add( river );
     customizeShadow(river,.08) // mess, opacity
     
     //river bed
@@ -80,13 +156,13 @@ function createRiverFrame(scene){
     let material_mud = new THREE.MeshLambertMaterial( { color: Colors.brownDark } );
     let bed = new THREE.Mesh( geometry_bed , material_mud );
     bed.position.set(.5,-1.53,0);
-    rtScene.add( bed );
+    riverFrameScene.add( bed );
     
     //grassland right
     let geometry_right = new THREE.BoxGeometry( 2.5, 4, 10 );
     let ground_right = new THREE.Mesh( geometry_right, material_grass );
     ground_right.position.set(2.3,-1.77,-4);
-    rtScene.add( ground_right );
+    riverFrameScene.add( ground_right );
     customizeShadow(ground_right,.25) // mess, opacity
     
     
@@ -101,7 +177,7 @@ function createRiverFrame(scene){
         trunk.position.set(this.x,.275,this.z);
         trunk.castShadow = true;
         trunk.receiveShadow = true;
-        rtScene.add( trunk );
+        riverFrameScene.add( trunk );
         
         //leaves
         let geometry_leaves = new THREE.BoxGeometry( .25, .4, .25 );
@@ -110,7 +186,7 @@ function createRiverFrame(scene){
         leaves.position.set(this.x,.2+.15+.4/2,this.z);
         leaves.castShadow = true;
         customizeShadow(leaves,.25) // mess, opacity
-        rtScene.add( leaves );
+        riverFrameScene.add( leaves );
     }
     
     //left
@@ -149,7 +225,7 @@ function createRiverFrame(scene){
         let mesh_shadow = new THREE.Mesh( t.geometry, material_shadow );
         mesh_shadow.position.set(t.position.x,t.position.y,t.position.z);
         mesh_shadow.receiveShadow = true;
-        rtScene.add( mesh_shadow );
+        riverFrameScene.add( mesh_shadow );
     }
     
     
@@ -162,7 +238,7 @@ function createRiverFrame(scene){
         block.position.set(0+.2*i,.21,.2);
         block.castShadow = true;
         block.receiveShadow = true;
-        rtScene.add( block );
+        riverFrameScene.add( block );
     }
     //bridge - rail
     let geometry_rail_v = new THREE.BoxGeometry( .04,.3,.04 );
@@ -170,40 +246,41 @@ function createRiverFrame(scene){
     rail_1.position.set(-.1,.35,.4);
     rail_1.castShadow = true;
     customizeShadow(rail_1,.2);
-    rtScene.add( rail_1 );
+    riverFrameScene.add( rail_1 );
     
     let rail_2 = new THREE.Mesh( geometry_rail_v, material_wood );
     rail_2.position.set(1.1,.35,.4);
     rail_2.castShadow = true;
     customizeShadow(rail_2,.2);
-    rtScene.add( rail_2 );
+    riverFrameScene.add( rail_2 );
     
     let rail_3 = new THREE.Mesh( geometry_rail_v, material_wood );
     rail_3.position.set(-.1,.35,0);
     rail_3.castShadow = true;
     customizeShadow(rail_3,.2);
-    rtScene.add( rail_3 );
+    riverFrameScene.add( rail_3 );
     
     let rail_4 = new THREE.Mesh( geometry_rail_v, material_wood );
     rail_4.position.set(1.1,.35,0);
     rail_4.castShadow = true;
     customizeShadow(rail_4,.2);
-    rtScene.add( rail_4 );
+    riverFrameScene.add( rail_4 );
     
     let geometry_rail_h = new THREE.BoxGeometry( 1.2,.04,.04 );
     let rail_h1 = new THREE.Mesh( geometry_rail_h, material_wood );
     rail_h1.position.set(0.5,.42,.4);
     rail_h1.castShadow = true;
     customizeShadow(rail_h1,.2);
-    rtScene.add( rail_h1 );
+    riverFrameScene.add( rail_h1 );
     
     let rail_h2 = new THREE.Mesh( geometry_rail_h, material_wood );
     rail_h2.position.set(0.5,.42,0);
     rail_h2.castShadow = true;
     customizeShadow(rail_h2,.2);
-    rtScene.add( rail_h2 );
+    riverFrameScene.add( rail_h2 );
 
-    createFrame(scene, renderTarget);
+    createMusicFrame(scene, riverRenderTarget, 0, 70, -500, './Objects/music/waterfall.mp3', 2);
+
 
 }
 class Drop {
@@ -213,7 +290,7 @@ this.material_river = new THREE.MeshLambertMaterial( { color: 0x6BC6FF} );
 
 this.drop= new THREE.Mesh( this.geometry, this.material_river );
 this.drop.position.set(Math.random(.1,.9),0.1,1+(Math.random()-.5)*.1);
-rtScene.add( this.drop );
+riverFrameScene.add( this.drop );
 this.speed=0;
 this.lifespan=(Math.random()*50)+50;
 
@@ -225,18 +302,170 @@ this.update=function(){
 }
 }
 }
+function cubesFrame(scene){
 
-function createFrame(scene, renderTarget, x, y, z)
+    const rtWidth = 512;
+    const rtHeight = 700;
+    cubesRenderTarget = new THREE.WebGLRenderTarget(rtWidth, rtHeight);
+    
+    const aspectRatio = rtWidth / rtHeight,
+        fieldOfView = 45,
+        nearPlane = .1,
+        farPlane = 10000; 
+    cubesCamera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearPlane, farPlane);
+
+    cubesCamera.lookAt(new THREE.Vector3(0,0,0));
+
+    cubesScene = new THREE.Scene();
+
+    // camera
+    cubesCamera.position.y = 600;
+    cubesCamera.position.z = 600;
+    cubesCamera.position.x = 600;
+    cubesCamera.updateProjectionMatrix();
+    cubesCamera.lookAt(cubesScene.position);
+    
+    // lights    
+    let backLight = new THREE.DirectionalLight( 0xffffff, 0.6 );
+    backLight.position.set( -400, 1000, 200 );
+    cubesScene.add(backLight);
+    // Add a directional light to show off the object
+    let light = new THREE.DirectionalLight( 0xffffff, 1);
+
+    // Position the light out from the scene, pointing at the origin
+    light.position.set(.5, 0, 1);
+    cubesScene.add( light );
+    light = new THREE.AmbientLight ( 0xaaccbb, 0.3 );
+    cubesScene.add(light);
+    
+    // floor
+    let thisgeometry = new THREE.PlaneGeometry( 5000, 5000, 1, 1 );
+    let thismaterial = new THREE.MeshBasicMaterial( { color: "white" } );
+    let floor = new THREE.Mesh( thisgeometry, thismaterial );
+    floor.material.side = THREE.DoubleSide;
+    floor.position.y =-100;
+    floor.rotation.x = 90*Math.PI/180;
+    floor.rotation.y = 0;
+    floor.rotation.z = 0;
+    floor.doubleSided = true;
+    floor.receiveShadow = true;
+    cubesScene.add(floor);
+    
+    // cube 
+    let myArray = new THREE.Group();
+    cubesScene.add(myArray);
+    const createCube = (x, z, group, colour) => {
+        let cubeGeometry = new THREE.BoxGeometry( 100, 100, 100 );
+        let cubeMaterial = new THREE.MeshLambertMaterial({color : colour, flatShading: THREE.FlatShading});
+        let shape = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        shape.castShadow = true;
+        shape.receiveShadow = true;
+        shape.position.x = x;
+        shape.position.z = z;
+
+        let tl = new TimelineMax({repeat: -1 ,repeatDelay:0.5});
+        tl.to(shape.scale, 0.5, {x: 2, ease: Expo.easeOut});
+        tl.to(shape.scale, 0.5, {z: 2, ease: Expo.easeOut});
+        tl.to(shape.scale, 1, {y: 2, ease: Elastic.easeOut});
+        tl.to(shape.scale, 0.7, {z: 1,x:1,y:1, ease: Expo.easeOut});
+        tl.to(shape.rotation, 0.7, {y:-Math.PI, ease: Elastic.easeOut},"=-0.7");
+        group.add(shape);
+
+    }
+
+    {
+    createCube(500, 250, myArray, '#64DFDF');
+    createCube(250, 500, myArray, '#64DFDF');
+    createCube(0, 500, myArray, '#64DFDF');
+    createCube(500, 0, myArray, '#64DFDF');
+    createCube(250, 250, myArray, '#56CFE1');
+    createCube(250, -250, myArray, '#4EA8DE');
+    createCube(-250, 250, myArray, '#4EA8DE');
+    createCube(250, 0, myArray, '#56CFE1');
+    createCube(0, 250, myArray, '#56CFE1');
+    createCube(0, 0, myArray, '#4EA8DE');
+    createCube(-250, 0, myArray, '#4EA8DE');
+    createCube(0, -250, myArray, '#4EA8DE');
+    createCube(-250, -250, myArray, '#48BFE3');
+    createCube(0, -500, myArray, '#5E60CE');
+    createCube(-500, 0, myArray, '#5E60CE');
+    createCube(-250, -500, myArray, '#5E60CE');
+    createCube(-500, -250, myArray, '#5E60CE');
+    createCube(-500, -500, myArray, '#6930C3');
+    createCube(-750, -250, myArray, '#6930C3');
+    createCube(-250, -750, myArray, '#6930C3');
+    createCube(-500, -750, myArray, '#6930C3');
+    createCube(-750, -500, myArray, '#6930C3');
+    createCube(-750, -750, myArray, '#7400B8');
+    createCube(-1000, -250, myArray, '#6930C3');
+    createCube(-1000, -500, myArray, '#7400B8');
+    createCube(-1000, -750, myArray, '#7400B8');
+    createCube(-250, -1000, myArray, '#6930C3');
+    createCube(-500, -1000, myArray, '#7400B8');
+    createCube(-750, -1000, myArray, '#7400B8');
+    createCube(-1000, -1000, myArray, '#7400B8');
+    createCube(-1250, -250, myArray, '#7400B8');
+    createCube(-1250, -500, myArray, '#7400B8');
+    createCube(-1250, -750, myArray, '#7400B8');
+    createCube(-1250, -1000, myArray, '#7400B8');
+    createCube(-250, -1250, myArray, '#7400B8');
+    createCube(-500, -1250, myArray, '#7400B8');
+    createCube(-750, -1250, myArray, '#7400B8');
+    createCube(-1000, -1250, myArray, '#7400B8');
+    createCube(-1250, -1250, myArray, '#7400B8');
+    createCube(-1500, -500, myArray, '#7400B8');
+    createCube(-1500, -750, myArray, '#7400B8');
+    createCube(-1500, -1000, myArray, '#7400B8');
+    createCube(-500, -1500, myArray, '#7400B8');
+    createCube(-750, -1500, myArray, '#7400B8');
+    createCube(-1000, -1500, myArray, '#7400B8');
+    }
+    createMusicFrame(scene, cubesRenderTarget, -200, 70, -500, './Objects/music/cello_suit1.mp3', 2);
+
+}
+
+function createFrame(scene, riverRenderTarget, x, y, z)
 {    
     const geometry = new THREE.PlaneGeometry( 30, 45, 32 );
     
     const material = new THREE.MeshPhongMaterial({
-        map: renderTarget.texture,
+        map: riverRenderTarget.texture,
         side: THREE.DoubleSide
     });
     frame = new THREE.Mesh(geometry, material);
-    frame.position.y = 60;
-    frame.position.z = -35;
+    frame.position.x = x;
+    frame.position.y = y;
+    frame.position.z = z;
+
+    scene.add(frame);
+}
+function createMusicFrame(scene, riverRenderTarget, x, y, z, songRoute, volume)
+{    
+    const geometry = new THREE.PlaneGeometry( 50, 80, 32 );
+    
+    const material = new THREE.MeshPhongMaterial({
+        map: riverRenderTarget.texture,
+        side: THREE.DoubleSide
+    });
+    const listener = new THREE.AudioListener();
+    camera.add( listener );
+    let sound = new THREE.PositionalAudio( listener );
+    const audioLoader = new THREE.AudioLoader();
+    audioLoader.load( songRoute, function( buffer ) {
+        sound.setBuffer( buffer );
+        sound.setRefDistance( 2 );
+        sound.setLoop(true);
+        sound.setVolume(volume);
+        sound.play();
+    }); 
+
+    sounds.push(sound)
+    frame = new THREE.Mesh(geometry, material);
+    frame.position.x = x;
+    frame.position.y = y;
+    frame.position.z = z;
+    frame.add( sound );
+
 
     scene.add(frame);
 }
@@ -370,15 +599,21 @@ function createScene(canvas)
     velocity = new THREE.Vector3();
     direction = new THREE.Vector3();
     
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
-    camera.position.y = 64;
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 2000 );
+    camera.position.y = 60;
+    camera.position.z = -200;
+
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0xffffff );
-    scene.fog = new THREE.Fog( 0xffffff, 0, 1000 );
+    // scene.fog = new THREE.Fog( 0xffffff, 0, 1000 );
 
-    let light = new THREE.AmbientLight(0XE5E5C6,2);
-    //light.position.set( 0.5, 1, 0.75 );
+    let light = new THREE.AmbientLight(0xffffff, 1);
+    light.position.set( 0.5, 1, 0.75 );
+    scene.add( light );
+
+    light = new THREE.DirectionalLight( 0xffffff, .9 );
+    light.position.set( 0, 1000, 0 );
     scene.add( light );
 
     document.addEventListener( 'keydown', onKeyDown, false );
@@ -390,12 +625,16 @@ function createScene(canvas)
     map.repeat.set(32, 32);
 
     let floorGeometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
-    let floor = new THREE.Mesh(floorGeometry, new THREE.MeshPhongMaterial({color:0xffffff, map:map, side:THREE.DoubleSide}));
+    let floor = new THREE.Mesh(floorGeometry, new THREE.MeshStandardMaterial({color:0xffffff, map:map, side:THREE.DoubleSide, roughness: 0, metalness: 0}));
     floor.rotation.x = -Math.PI / 2;
     scene.add( floor );
     // Frames
     // River Frame
+    cubesFrame(scene);
+
     createRiverFrame(scene);
+    createWalls(scene);
+
     // createObject('./Objects/Tree/source/Tree/Temple_MESH.obj',0,0,20,0.5);
     // createObject('./Objects/mountain.obj',-200,0,20,1.5,);
     // createObject('./Objects/elephant.obj',-300,10,20,10);
@@ -425,11 +664,18 @@ function run()
 
     if ( controls.isLocked === true ) 
     {
+        // for every sound in the frames
+        if(paused){
+            sounds.forEach(sound => {
+                sound.play();
+            });
+            paused = false
+        }
         let time = performance.now();
         let delta = ( time - prevTime ) / 1000;
 
-        velocity.x -= velocity.x * 10.0 * delta;
-        velocity.z -= velocity.z * 10.0 * delta;
+        velocity.x -= velocity.x * 4 * delta;
+        velocity.z -= velocity.z * 4 * delta;
 
         direction.z = Number( moveForward ) - Number( moveBackward );
         direction.x = Number( moveRight ) - Number( moveLeft );
@@ -450,21 +696,29 @@ function run()
         }
         count++;
         for(let i=0;i<drops.length;i++){
-            console.log(drops.lenght);
             drops[i].update();
             if(drops[i].lifespan<0){
-                rtScene.remove(rtScene.getObjectById(drops[i].drop.id));
+                riverFrameScene.remove(riverFrameScene.getObjectById(drops[i].drop.id));
                 drops.splice(i,1);
             }
         }
 
 
     }
-
+    else{
+        sounds.forEach(sound => {
+            sound.pause();
+        });
+        paused = true;
+    }
+    // for music frame
     //  draw render target scene to render target
-    // this is for the frames (cuadros)
-    renderer.setRenderTarget(renderTarget);
-    renderer.render(rtScene, rtCamera);
+    renderer.setRenderTarget(riverRenderTarget);
+    renderer.render(riverFrameScene, riverFrameCamera);
+    renderer.setRenderTarget(null);
+
+    renderer.setRenderTarget(cubesRenderTarget);
+    renderer.render(cubesScene, cubesCamera);
     renderer.setRenderTarget(null);
 
     renderer.render( scene, camera );

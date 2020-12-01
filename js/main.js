@@ -1,8 +1,15 @@
 let camera, scene, renderer, controls;
 let riverFrameCamera, riverFrameScene, riverRenderTarget;
 let cubesCamera, cubesScene, cubesRenderTarget;
+let bubblesCamera, bubblesScene, bubblesRenderTarget;
+let tunnelCamera, tunnelScene, tunnelRenderTarget, uniforms;
+
+const spheres = [];
+let duration = 5000; // ms
+let currentTime, now = Date.now();
+// let 
 let sounds =[];
-let spotlight;
+let spotlight, pivot;
 let musicGroup;
 
 let drops = [];
@@ -27,7 +34,7 @@ function createWalls(scene){
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(3, 1);
 
-    const geometry = new THREE.PlaneGeometry( 1000, 180, 32 );
+    const geometry = new THREE.PlaneGeometry( 1020, 180, 32 );
     const material = new THREE.MeshPhongMaterial({ map: texture, color: 0xffffff, side:THREE.DoubleSide});
     const footerGeometry = new THREE.PlaneGeometry( 1000, 10, 32 );
     let map = new THREE.TextureLoader().load(floorUrl);
@@ -88,8 +95,6 @@ function createWalls(scene){
 
 
 }
-
-
 //https://codepen.io/yitliu/pen/bJoQLw
 function createRiverFrame(scene){
     const rtWidth = 512;
@@ -121,7 +126,7 @@ function createRiverFrame(scene){
     riverFrameScene.background = new THREE.Color('#000729');
   
     //Ambient light
-    let light = new THREE.AmbientLight( 0xffffff ,.2);
+    let light = new THREE.AmbientLight( 0xffffff ,.5);
     
     let shadowLight = new THREE.DirectionalLight(0xffffff, .3);
     shadowLight.position.set(2000, 2000, 2000);
@@ -279,7 +284,7 @@ function createRiverFrame(scene){
     customizeShadow(rail_h2,.2);
     riverFrameScene.add( rail_h2 );
 
-    createMusicFrame(scene, riverRenderTarget, 0, 70, -500, './Objects/music/waterfall.mp3', 2);
+    createMusicFrame(scene, riverRenderTarget, -300, 70, -500, './Objects/music/waterfall.mp3', 6, 70, 90);
 
 
 }
@@ -420,13 +425,104 @@ function cubesFrame(scene){
     createCube(-750, -1500, myArray, '#7400B8');
     createCube(-1000, -1500, myArray, '#7400B8');
     }
-    createMusicFrame(scene, cubesRenderTarget, -200, 70, -500, './Objects/music/cello_suit1.mp3', 2);
+    createMusicFrame(scene, cubesRenderTarget, -100, 70, -500, './Objects/music/cello_suit1.mp3', 5, 70, 90);
 
 }
 
-function createFrame(scene, riverRenderTarget, x, y, z)
+function bubblesFrame(scene){
+    const rtWidth = 700;
+    const rtHeight = 900;
+    bubblesRenderTarget = new THREE.WebGLRenderTarget(rtWidth, rtHeight);
+    
+    const aspectRatio = rtWidth / rtHeight,
+        fieldOfView = 45,
+        nearPlane = .01,
+        farPlane = 10000; 
+    bubblesCamera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearPlane, farPlane);
+
+    bubblesCamera.lookAt(new THREE.Vector3(1,1,1));
+
+    bubblesScene = new THREE.Scene();
+
+    // camera
+    bubblesCamera.position.z = 3;
+    bubblesCamera.focalLength = 5;
+    bubblesCamera.updateProjectionMatrix();
+    bubblesCamera.lookAt(bubblesScene.position);
+    const path = "./js/assets/blue/";
+    const format = '.png';
+    const urls = [
+        path + 'blue_left' + format, path + 'blue_right' + format,
+        path + 'blue_front' + format, path + 'blue_back' + format,
+        path + 'blue_down' + format, path + 'back' + format,
+
+    ];
+
+    const textureCube = new THREE.CubeTextureLoader().load( urls );
+
+    bubblesScene.background = textureCube;
+
+    const geometry = new THREE.SphereBufferGeometry( 0.1, 32, 16 );
+    const material = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: textureCube } );
+
+    for ( let i = 0; i < 1000; i ++ ) {
+
+        const mesh = new THREE.Mesh( geometry, material );
+
+        mesh.position.x = Math.random() * 5 - 3;
+        mesh.position.y = Math.random() * 5 - 3;
+        mesh.position.z = Math.random() * 5 - 3;
+
+        mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 3 + 1;
+
+        bubblesScene.add( mesh );
+
+        spheres.push( mesh );
+
+    }
+
+    createMusicFrame(scene, bubblesRenderTarget, 100, 70, -500, './Objects/music/bubbles.mp3', 1, 130, 90);
+
+}
+
+function tunnelFrame(scene){
+
+    const rtWidth = 512;
+    const rtHeight = 700;
+    tunnelRenderTarget = new THREE.WebGLRenderTarget(rtWidth, rtHeight);
+    
+    const aspectRatio = rtWidth / rtHeight,
+        fieldOfView = 45,
+        nearPlane = .01,
+        farPlane = 10000; 
+    tunnelCamera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, nearPlane, farPlane);
+    tunnelCamera.position.z = 3.5;
+
+    tunnelScene = new THREE.Scene();
+
+    const tunnelGeometry = new THREE.PlaneBufferGeometry( 2, 2 );
+
+    uniforms = {
+        time: { value: 1.0 }
+    };
+
+    const tunnelMaterial = new THREE.ShaderMaterial( {
+
+        uniforms: uniforms,
+        vertexShader: document.getElementById( 'vertexShader' ).textContent,
+        fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+
+    } );
+
+    const mesh = new THREE.Mesh( tunnelGeometry, tunnelMaterial );
+    tunnelScene.add( mesh );
+
+    createMusicFrame(scene, tunnelRenderTarget, 300, 70, -500, './Objects/music/tunnel.wav', 2.5, 90, 120);
+};
+
+function createFrame(scene, riverRenderTarget, x, y, z, xSize, ySize)
 {    
-    const geometry = new THREE.PlaneGeometry( 30, 45, 32 );
+    const geometry = new THREE.PlaneGeometry( xSize, ySize, 32 );
     
     const material = new THREE.MeshPhongMaterial({
         map: riverRenderTarget.texture,
@@ -439,9 +535,9 @@ function createFrame(scene, riverRenderTarget, x, y, z)
 
     scene.add(frame);
 }
-function createMusicFrame(scene, riverRenderTarget, x, y, z, songRoute, volume)
+function createMusicFrame(scene, riverRenderTarget, x, y, z, songRoute, volume, xSize, ySize)
 {    
-    const geometry = new THREE.PlaneGeometry( 50, 80, 32 );
+    const geometry = new THREE.PlaneGeometry( xSize, ySize, 32 );
     
     const material = new THREE.MeshPhongMaterial({
         map: riverRenderTarget.texture,
@@ -453,7 +549,7 @@ function createMusicFrame(scene, riverRenderTarget, x, y, z, songRoute, volume)
     const audioLoader = new THREE.AudioLoader();
     audioLoader.load( songRoute, function( buffer ) {
         sound.setBuffer( buffer );
-        sound.setRefDistance( 2 );
+        sound.setRefDistance( .2 );
         sound.setLoop(true);
         sound.setVolume(volume);
         sound.play();
@@ -464,10 +560,39 @@ function createMusicFrame(scene, riverRenderTarget, x, y, z, songRoute, volume)
     frame.position.x = x;
     frame.position.y = y;
     frame.position.z = z;
+    // pivot = new THREE.Object3D();
+    // pivot.position.x = x;
+    // pivot.position.y = y;
+    // pivot.position.z = z;
+    // pivot.add(frame);
     frame.add( sound );
-
-
+    // scene.add( pivot );
     scene.add(frame);
+
+    // spotLight = new THREE.SpotLight( 0xffffff, 1 );
+    // spotLight.position.set( 0, 100, 200 );
+    // spotLight.angle = Math.PI / 4;
+    // spotLight.penumbra = 0.1;
+    // spotLight.decay = 2;
+    // spotLight.distance = 200;
+    // spotLight.castShadow = true;
+    
+    // spotLight.shadow.mapSize.width = 512;
+    // spotLight.shadow.mapSize.height = 512;
+
+    // spotLight.shadow.focus = 1;
+    
+    // spotLight.shadow.camera.near = 10;
+    // spotLight.shadow.camera.far = 200;
+    // spotLight.shadow.camera.fov = 30;
+    
+    // pivot.add( spotLight );
+    // // scene.add( spotlight.target );
+    // let lightHelper = new THREE.SpotLightHelper( spotLight );
+    // scene.add( lightHelper );
+
+
+
 }
 
 function initPointerLock()
@@ -606,13 +731,11 @@ function createScene(canvas)
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0xffffff );
-    // scene.fog = new THREE.Fog( 0xffffff, 0, 1000 );
-
     let light = new THREE.AmbientLight(0xffffff, 1);
     light.position.set( 0.5, 1, 0.75 );
     scene.add( light );
 
-    light = new THREE.DirectionalLight( 0xffffff, .9 );
+    light = new THREE.DirectionalLight( 0xffffff, .3 );
     light.position.set( 0, 1000, 0 );
     scene.add( light );
 
@@ -628,24 +751,27 @@ function createScene(canvas)
     let floor = new THREE.Mesh(floorGeometry, new THREE.MeshStandardMaterial({color:0xffffff, map:map, side:THREE.DoubleSide, roughness: 0, metalness: 0}));
     floor.rotation.x = -Math.PI / 2;
     scene.add( floor );
+    
     // Frames
-    // River Frame
     cubesFrame(scene);
-
     createRiverFrame(scene);
+    bubblesFrame(scene);
+    tunnelFrame(scene);
+
+    // Creating walls
     createWalls(scene);
 
-    // createObject('./Objects/Tree/source/Tree/Temple_MESH.obj',0,0,20,0.5);
-    // createObject('./Objects/mountain.obj',-200,0,20,1.5,);
-    // createObject('./Objects/elephant.obj',-300,10,20,10);
-    // createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-100,0,20,1.5);
-    // createMTLObject('./Objects/sea.mtl','./Objects/sea.obj',100,15,20,2);
-    // createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',200,0,20,0.3);
-    // createObjectGLTF('./Objects/obj5/scene.gltf', 100, 30, -100, 1);
-    // createObjectGLTF('./Objects/obj2/scene.gltf', -150, 50, -100, 5);
-    // createObjectGLTF('./Objects/obj3/scene.gltf', -100, 50, -100, 0.5);
-    // createObjectGLTF('./Objects/op1/scene.gltf', 10, 100, -100, 2);
-    // createObjectGLTF('./Objects/Dino/scene.gltf', 10, 20, 100, 4);
+    createObject('./Objects/Tree/source/Tree/Temple_MESH.obj',0,0,20,0.5);
+    createObject('./Objects/mountain.obj',-200,0,20,1.5,);
+    createObject('./Objects/elephant.obj',-300,10,20,10);
+    createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-100,0,20,1.5);
+    createMTLObject('./Objects/sea.mtl','./Objects/sea.obj',100,15,20,2);
+    createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',200,0,20,0.3);
+    createObjectGLTF('./Objects/obj5/scene.gltf', 100, 30, -100, 1);
+    createObjectGLTF('./Objects/obj2/scene.gltf', -150, 50, -100, 5);
+    createObjectGLTF('./Objects/obj3/scene.gltf', -100, 50, -100, 0.5);
+    createObjectGLTF('./Objects/op1/scene.gltf', 10, 100, -100, 2);
+    createObjectGLTF('./Objects/Dino/scene.gltf', 10, 20, 100, 4);
     initPointerLock();
 }
 
@@ -702,7 +828,17 @@ function run()
                 drops.splice(i,1);
             }
         }
+        // bubbles motion
+        for ( let i = 0, il = spheres.length; i < il; i ++ ) {
 
+            const sphere = spheres[ i ];
+
+            sphere.position.x = 3 * Math.cos( time/3000 + i );
+            sphere.position.y = 3 * Math.sin( time/3000 + i * 1.1 );
+
+        }
+        //shader
+        uniforms[ 'time' ].value = performance.now() / 1000;
 
     }
     else{
@@ -719,6 +855,14 @@ function run()
 
     renderer.setRenderTarget(cubesRenderTarget);
     renderer.render(cubesScene, cubesCamera);
+    renderer.setRenderTarget(null);
+
+    renderer.setRenderTarget(bubblesRenderTarget);
+    renderer.render(bubblesScene, bubblesCamera);
+    renderer.setRenderTarget(null);
+
+    renderer.setRenderTarget(tunnelRenderTarget);
+    renderer.render(tunnelScene, tunnelCamera);
     renderer.setRenderTarget(null);
 
     renderer.render( scene, camera );

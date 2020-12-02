@@ -557,39 +557,43 @@ function createMusicFrame(scene, riverRenderTarget, x, y, z, songRoute, volume, 
 
     sounds.push(sound)
     frame = new THREE.Mesh(geometry, material);
-    frame.position.x = x;
-    frame.position.y = y;
-    frame.position.z = z;
-    // pivot = new THREE.Object3D();
-    // pivot.position.x = x;
-    // pivot.position.y = y;
-    // pivot.position.z = z;
-    // pivot.add(frame);
+    // frame.position.x = x;
+    // frame.position.y = y;
+    // frame.position.z = z;
+    pivot = new THREE.Object3D();
+    pivot.position.x = x;
+    pivot.position.y = y;
+    pivot.position.z = z;
+    pivot.add(frame);
     frame.add( sound );
-    // scene.add( pivot );
-    scene.add(frame);
 
-    // spotLight = new THREE.SpotLight( 0xffffff, 1 );
-    // spotLight.position.set( 0, 100, 200 );
-    // spotLight.angle = Math.PI / 4;
-    // spotLight.penumbra = 0.1;
-    // spotLight.decay = 2;
-    // spotLight.distance = 200;
-    // spotLight.castShadow = true;
-    
-    // spotLight.shadow.mapSize.width = 512;
-    // spotLight.shadow.mapSize.height = 512;
+    // scene.add(frame);
 
-    // spotLight.shadow.focus = 1;
+    spotLight = new THREE.SpotLight( 0xffffff, 1 );
+    spotLight.position.set( 0, 100, 50 );
+    spotLight.angle = Math.PI / 4;
+    spotLight.penumbra = 0.1;
+    spotLight.decay = 2;
+    spotLight.distance = 200;
+    spotLight.castShadow = true;
     
-    // spotLight.shadow.camera.near = 10;
-    // spotLight.shadow.camera.far = 200;
-    // spotLight.shadow.camera.fov = 30;
+    spotLight.shadow.mapSize.width = 512;
+    spotLight.shadow.mapSize.height = 512;
+
+    spotLight.shadow.focus = 1;
     
-    // pivot.add( spotLight );
-    // // scene.add( spotlight.target );
-    // let lightHelper = new THREE.SpotLightHelper( spotLight );
-    // scene.add( lightHelper );
+    spotLight.shadow.camera.near = 10;
+    spotLight.shadow.camera.far = 200;
+    spotLight.shadow.camera.fov = 30;
+    
+    scene.add( spotLight );
+    scene.add( pivot );
+
+    // spotlight.target = pivot;
+    // scene.add( spotlight.target );
+
+    let lightHelper = new THREE.SpotLightHelper( spotLight );
+    scene.add( lightHelper );
 
 
 
@@ -761,17 +765,17 @@ function createScene(canvas)
     // Creating walls
     createWalls(scene);
 
-    createObject('./Objects/Tree/source/Tree/Temple_MESH.obj',0,0,20,0.5);
-    createObject('./Objects/mountain.obj',-200,0,20,1.5,);
-    createObject('./Objects/elephant.obj',-300,10,20,10);
-    createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-100,0,20,1.5);
-    createMTLObject('./Objects/sea.mtl','./Objects/sea.obj',100,15,20,2);
-    createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',200,0,20,0.3);
-    createObjectGLTF('./Objects/obj5/scene.gltf', 100, 30, -100, 1);
-    createObjectGLTF('./Objects/obj2/scene.gltf', -150, 50, -100, 5);
-    createObjectGLTF('./Objects/obj3/scene.gltf', -100, 50, -100, 0.5);
-    createObjectGLTF('./Objects/op1/scene.gltf', 10, 100, -100, 2);
-    createObjectGLTF('./Objects/Dino/scene.gltf', 10, 20, 100, 4);
+    // createObject('./Objects/Tree/source/Tree/Temple_MESH.obj',0,0,20,0.5);
+    // createObject('./Objects/mountain.obj',-200,0,20,1.5,);
+    // createObject('./Objects/elephant.obj',-300,10,20,10);
+    // createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-100,0,20,1.5);
+    // createMTLObject('./Objects/sea.mtl','./Objects/sea.obj',100,15,20,2);
+    // createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',200,0,20,0.3);
+    // createObjectGLTF('./Objects/obj5/scene.gltf', 100, 30, -100, 1);
+    // createObjectGLTF('./Objects/obj2/scene.gltf', -150, 50, -100, 5);
+    // createObjectGLTF('./Objects/obj3/scene.gltf', -100, 50, -100, 0.5);
+    // createObjectGLTF('./Objects/op1/scene.gltf', 10, 100, -100, 2);
+    // createObjectGLTF('./Objects/Dino/scene.gltf', 10, 20, 100, 4);
     initPointerLock();
 }
 

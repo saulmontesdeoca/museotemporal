@@ -76,7 +76,7 @@ Se tiene que definir un AudioListener y se tiene que agregar a la camara de la e
 
 ## Waterfall frame
 <div align="center">
-    <img alt="sample" src="./js/waterfall.gif" width="30%">
+    <img alt="sample" src="./js/assets/waterfall.gif" width="45%">
 </div>
 Para la creación de este cuadro se utilizaron los siguientes metodos:
 - Pasto, se utilixaron dos boxGeometries, una para cada lado del río:
@@ -168,17 +168,17 @@ class Drop {
 
 ## Cubes frame
 <div align="center">
-    <img alt="sample" src="./js/cubes.gif" width="30%">
+    <img alt="sample" src="./js/assets/cubes.gif" width="45%">
 </div>
 
 ## Bubbles frame
 <div align="center">
-    <img alt="sample" src="./js/bubbles.gif" width="50%">
+    <img alt="sample" src="./js/assets/bubbles.gif" width="70%">
 </div>
 
 ## Portal frame
 <div align="center">
-    <img alt="sample" src="./js/portal.gif" width="30%">
+    <img alt="sample" src="./js/assets/portal.gif" width="45%">
 </div>
 
 # 🏰🛸🗿 Esculturas

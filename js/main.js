@@ -9,7 +9,7 @@ let duration = 5000; // ms
 let currentTime, now = Date.now();
 // let 
 let sounds =[];
-let spotlight, pivot;
+
 let musicGroup;
 
 let drops = [];
@@ -290,22 +290,22 @@ function createRiverFrame(scene){
 }
 class Drop {
     constructor(){
-this.geometry = new THREE.BoxGeometry(.1, .1, .1 );
-this.material_river = new THREE.MeshLambertMaterial( { color: 0x6BC6FF} );
+        this.geometry = new THREE.BoxGeometry(.1, .1, .1 );
+        this.material_river = new THREE.MeshLambertMaterial( { color: 0x6BC6FF} );
 
-this.drop= new THREE.Mesh( this.geometry, this.material_river );
-this.drop.position.set(Math.random(.1,.9),0.1,1+(Math.random()-.5)*.1);
-riverFrameScene.add( this.drop );
-this.speed=0;
-this.lifespan=(Math.random()*50)+50;
+        this.drop= new THREE.Mesh( this.geometry, this.material_river );
+        this.drop.position.set(Math.random(.1,.9),0.1,1+(Math.random()-.5)*.1);
+        riverFrameScene.add( this.drop );
+        this.speed=0;
+        this.lifespan=(Math.random()*50)+50;
 
-this.update=function(){
-    this.speed+=.0007;
-    this.lifespan--;
-    this.drop.position.x+=(.5-this.drop.position.x)/100;
-    this.drop.position.y-=this.speed;
-}
-}
+        this.update=function(){
+            this.speed+=.0007;
+            this.lifespan--;
+            this.drop.position.x+=(.5-this.drop.position.x)/100;
+            this.drop.position.y-=this.speed;
+        }
+    }   
 }
 function cubesFrame(scene){
 
@@ -465,7 +465,7 @@ function bubblesFrame(scene){
     const geometry = new THREE.SphereBufferGeometry( 0.1, 32, 16 );
     const material = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: textureCube } );
 
-    for ( let i = 0; i < 1000; i ++ ) {
+    for ( let i = 0; i < 500; i ++ ) {
 
         const mesh = new THREE.Mesh( geometry, material );
 
@@ -557,46 +557,13 @@ function createMusicFrame(scene, riverRenderTarget, x, y, z, songRoute, volume, 
 
     sounds.push(sound)
     frame = new THREE.Mesh(geometry, material);
-    // frame.position.x = x;
-    // frame.position.y = y;
-    // frame.position.z = z;
-    pivot = new THREE.Object3D();
-    pivot.position.x = x;
-    pivot.position.y = y;
-    pivot.position.z = z;
-    pivot.add(frame);
+    frame.position.x = x;
+    frame.position.y = y;
+    frame.position.z = z;
+
     frame.add( sound );
 
-    // scene.add(frame);
-
-    spotLight = new THREE.SpotLight( 0xffffff, 1 );
-    spotLight.position.set( 0, 100, 50 );
-    spotLight.angle = Math.PI / 4;
-    spotLight.penumbra = 0.1;
-    spotLight.decay = 2;
-    spotLight.distance = 200;
-    spotLight.castShadow = true;
-    
-    spotLight.shadow.mapSize.width = 512;
-    spotLight.shadow.mapSize.height = 512;
-
-    spotLight.shadow.focus = 1;
-    
-    spotLight.shadow.camera.near = 10;
-    spotLight.shadow.camera.far = 200;
-    spotLight.shadow.camera.fov = 30;
-    
-    scene.add( spotLight );
-    scene.add( pivot );
-
-    // spotlight.target = pivot;
-    // scene.add( spotlight.target );
-
-    let lightHelper = new THREE.SpotLightHelper( spotLight );
-    scene.add( lightHelper );
-
-
-
+    scene.add(frame);
 }
 
 function initPointerLock()
@@ -765,17 +732,17 @@ function createScene(canvas)
     // Creating walls
     createWalls(scene);
 
-    // createObject('./Objects/Tree/source/Tree/Temple_MESH.obj',0,0,20,0.5);
-    // createObject('./Objects/mountain.obj',-200,0,20,1.5,);
-    // createObject('./Objects/elephant.obj',-300,10,20,10);
-    // createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-100,0,20,1.5);
-    // createMTLObject('./Objects/sea.mtl','./Objects/sea.obj',100,15,20,2);
-    // createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',200,0,20,0.3);
-    // createObjectGLTF('./Objects/obj5/scene.gltf', 100, 30, -100, 1);
-    // createObjectGLTF('./Objects/obj2/scene.gltf', -150, 50, -100, 5);
-    // createObjectGLTF('./Objects/obj3/scene.gltf', -100, 50, -100, 0.5);
-    // createObjectGLTF('./Objects/op1/scene.gltf', 10, 100, -100, 2);
-    // createObjectGLTF('./Objects/Dino/scene.gltf', 10, 20, 100, 4);
+    createObject('./Objects/Tree/source/Tree/Temple_MESH.obj',0,0,20,0.5);
+    createObject('./Objects/mountain.obj',-200,0,20,1.5,);
+    createObject('./Objects/elephant.obj',-300,10,20,10);
+    createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-100,0,20,1.5);
+    createMTLObject('./Objects/sea.mtl','./Objects/sea.obj',100,15,20,2);
+    createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',200,0,20,0.3);
+    createObjectGLTF('./Objects/obj5/scene.gltf', 100, 30, -100, 1);
+    createObjectGLTF('./Objects/obj2/scene.gltf', -150, 50, -100, 5);
+    createObjectGLTF('./Objects/obj3/scene.gltf', -100, 50, -100, 0.5);
+    createObjectGLTF('./Objects/op1/scene.gltf', 10, 100, -100, 2);
+    createObjectGLTF('./Objects/Dino/scene.gltf', 10, 20, 100, 4);
     initPointerLock();
 }
 
@@ -804,8 +771,8 @@ function run()
         let time = performance.now();
         let delta = ( time - prevTime ) / 1000;
 
-        velocity.x -= velocity.x * 4 * delta;
-        velocity.z -= velocity.z * 4 * delta;
+        velocity.x -= velocity.x * 2 * delta;
+        velocity.z -= velocity.z * 2 * delta;
 
         direction.z = Number( moveForward ) - Number( moveBackward );
         direction.x = Number( moveRight ) - Number( moveLeft );
@@ -851,20 +818,24 @@ function run()
         });
         paused = true;
     }
-    // for music frame
     //  draw render target scene to render target
+
+    // River frame render target scene to render targeth
     renderer.setRenderTarget(riverRenderTarget);
     renderer.render(riverFrameScene, riverFrameCamera);
     renderer.setRenderTarget(null);
 
+    // Cubes frame render target scene to render targeth
     renderer.setRenderTarget(cubesRenderTarget);
     renderer.render(cubesScene, cubesCamera);
     renderer.setRenderTarget(null);
 
+    // Bubbles frame render target scene to render targeth
     renderer.setRenderTarget(bubblesRenderTarget);
     renderer.render(bubblesScene, bubblesCamera);
     renderer.setRenderTarget(null);
 
+    // Tunnel frame render target scene to render targeth
     renderer.setRenderTarget(tunnelRenderTarget);
     renderer.render(tunnelScene, tunnelCamera);
     renderer.setRenderTarget(null);

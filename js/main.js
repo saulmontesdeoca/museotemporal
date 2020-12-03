@@ -732,12 +732,11 @@ function createScene(canvas)
     // Creating walls
     createWalls(scene);
 
-    createObject('./Objects/Tree/source/Tree/Temple_MESH.obj',0,0,20,0.5);
-    createObject('./Objects/mountain.obj',-200,0,20,1.5,);
-    createObject('./Objects/elephant.obj',-300,10,20,10);
-    createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-100,0,20,1.5);
-    createMTLObject('./Objects/sea.mtl','./Objects/sea.obj',100,15,20,2);
-    createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',200,0,20,0.3);
+    let eiffel= createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-250,33,450,2);
+    let streets = createObjectGLTF('./Objects/cafeteria.glb',-430,0,325,1.5);
+    let humano = createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',400,0.1,425,0.5);
+    let cubicle = createObjectGLTF('./Objects/cubicle.glb',400,0.1,490,70);
+    let pTriangule = createObjectGLTF('./Objects/penrosetriangule.glb',150,0.1,375,1.5);
     createObjectGLTF('./Objects/obj5/scene.gltf', 100, 30, -100, 1);
     createObjectGLTF('./Objects/obj2/scene.gltf', -150, 50, -100, 5);
     createObjectGLTF('./Objects/obj3/scene.gltf', -100, 50, -100, 0.5);

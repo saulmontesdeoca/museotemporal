@@ -11,6 +11,8 @@ let currentTime, now = Date.now();
 let sounds =[];
 
 let musicGroup;
+let right = true;
+let left = false;
 
 let drops = [];
 let count =0;
@@ -27,7 +29,7 @@ let prevTime = performance.now();
 let velocity, direction;
 
 let floorUrl = "./js/assets/floor.jpg";
-
+let models = [];
 function createWalls(scene){
     let wallTexture = "./js/assets/wall_texture.jpg";
     let texture = new THREE.TextureLoader().load(wallTexture);
@@ -643,6 +645,7 @@ function onKeyUp( event ) {
 
     }
 }
+
 function createObject(path,x,y,z,scale){
     const objLoader = new THREE.OBJLoader();
     objLoader.load(path, (object) => {
@@ -669,17 +672,20 @@ function createMTLObject(mtlpath,path,x,y,z,scale){
 function createObjectGLTF(path, x, y ,z , scale){
     const loader = new THREE.GLTFLoader();
     loader.load( path, function ( gltf ) {
-        gltf.scene.scale.set(scale,scale,scale) // scale here
-        gltf.scene.position.x = x; // once rescaled, position the model where needed
-        gltf.scene.position.z = z;
-        gltf.scene.position.y = y; // once rescaled, position the model where needed
-        scene.add( gltf.scene );
+        let model = gltf.scene
+        model.scale.set(scale,scale,scale) // scale here
+        model.position.x = x; // once rescaled, position the model where needed
+        model.position.z = z;
+        model.position.y = y; // once rescaled, position the model where needed
+        models.push(model);
+        scene.add(model);
 
     }, undefined, function ( error ) {
 
         console.error( error );
 
     } );
+    console.log(models);
 }
 
 
@@ -737,6 +743,7 @@ function createScene(canvas)
     let humano = createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',400,0.1,425,0.5);
     let cubicle = createObjectGLTF('./Objects/cubicle.glb',400,0.1,490,70);
     let pTriangule = createObjectGLTF('./Objects/penrosetriangule.glb',150,0.1,375,1.5);
+
     createObjectGLTF('./Objects/obj5/scene.gltf', 100, 30, -100, 1);
     createObjectGLTF('./Objects/obj2/scene.gltf', -150, 50, -100, 5);
     createObjectGLTF('./Objects/obj3/scene.gltf', -100, 50, -100, 0.5);
@@ -757,7 +764,29 @@ function onWindowResize() {
 function run() 
 {
     requestAnimationFrame( run );
-
+    if (models[0]) models[0].rotation.x += 0.01;
+    if (models[1]) models[1].rotation.x += 0.04;
+    if (models[2]){
+        console.log("right", right, "left", left)
+        if(right){
+            models[2].rotation.y += 0.02;
+            if(models[2].rotation.y  > 2.5){
+                right = false;
+                left = true;
+            }
+        }
+        else if(left){
+            models[2].rotation.y -= 0.02;
+            if(models[2].rotation.y < 1){
+                left = false;
+                right = true;
+            }
+        }
+        console.log(models[2].rotation.y);
+        
+    } 
+    if (models[3]) models[3].rotation.x += 0.09;
+    if (models[4]) models[4].rotation.x += 0.1;
     if ( controls.isLocked === true ) 
     {
         // for every sound in the frames

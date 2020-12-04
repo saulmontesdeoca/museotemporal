@@ -171,15 +171,88 @@ class Drop {
     <img alt="sample" src="./js/assets/cubes.gif" width="45%">
 </div>
 
+- La creación de los cubos ocurre en una funcion llamada createCube(), esta se encarga de tambien animarlos con TimelineMax:
+```javascript
+    const createCube = (x, z, group, colour) => {
+        let cubeGeometry = new THREE.BoxGeometry( 100, 100, 100 );
+        let cubeMaterial = new THREE.MeshLambertMaterial({color : colour, flatShading: THREE.FlatShading});
+        let shape = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        shape.castShadow = true;
+        shape.receiveShadow = true;
+        shape.position.x = x;
+        shape.position.z = z;
+        
+        // TimeLineMax para la animación sencilla
+        let tl = new TimelineMax({repeat: -1 ,repeatDelay:0.5});
+        tl.to(shape.scale, 0.5, {x: 2, ease: Expo.easeOut});
+        tl.to(shape.scale, 0.5, {z: 2, ease: Expo.easeOut});
+        tl.to(shape.scale, 1, {y: 2, ease: Elastic.easeOut});
+        tl.to(shape.scale, 0.7, {z: 1,x:1,y:1, ease: Expo.easeOut});
+        tl.to(shape.rotation, 0.7, {y:-Math.PI, ease: Elastic.easeOut},"=-0.7");
+        group.add(shape);
+
+    }
+```
+
+Una vez teniendo esta funcion tan util, solo fue cuestion de crear los cubos y distribuirlos uniformemente a lo largo de la escena pasandoles además un color específico.
+
 ## Bubbles frame
+
 <div align="center">
     <img alt="sample" src="./js/assets/bubbles.gif" width="70%">
 </div>
+
+- Para esta escena en el cuadro se le asignó un skybox el cúal se encarga de darle esa apariencia tan peculiar a las burbujas creadas:
+
+```javascript
+    // asignando el skybox
+    bubblesScene.background = textureCube;
+    
+    // Geometria y material de las burbujas
+    const geometry = new THREE.SphereBufferGeometry( 0.1, 32, 16 );
+    const material = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: textureCube } );
+
+    // creando 500 burbujas con posición aleatoria
+    for ( let i = 0; i < 500; i ++ ) {
+
+        const mesh = new THREE.Mesh( geometry, material );
+
+        mesh.position.x = Math.random() * 5 - 3;
+        mesh.position.y = Math.random() * 5 - 3;
+        mesh.position.z = Math.random() * 5 - 3;
+
+        mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 3 + 1;
+
+        
+        bubblesScene.add( mesh );
+
+        // Se añaden todas a un array global para despues moverlas en run()
+        spheres.push( mesh );
+
+    }
+```
+
+- Movimiento en run(), funciona así:
+
+```javascript
+        // bubbles motion
+        for ( let i = 0, il = spheres.length; i < il; i ++ ) {
+
+            const sphere = spheres[ i ];
+
+            // Cos y Sin para movimiento en la escena
+            sphere.position.x = 3 * Math.cos( time/3000 + i );
+            sphere.position.y = 3 * Math.sin( time/3000 + i * 1.1 );
+
+        }
+```
 
 ## Portal frame
 <div align="center">
     <img alt="sample" src="./js/assets/portal.gif" width="45%">
 </div>
+
+- La creación de este portal se basó en un ejemplo de la documentación de ThreeJs que explica como funcionan los shaders. [Ver ejemplo.](https://threejs.org/examples/?q=shader#webgl_shader)
 
 # 🏰🛸🗿 Esculturas
 

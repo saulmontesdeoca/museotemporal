@@ -13,9 +13,11 @@ let sounds =[];
 let musicGroup;
 let right = true;
 let left = false;
-
+let rightTree = true;
+let leftTree = false;
 let drops = [];
 let count =0;
+let c = -1;
 let paused = true;
 let objects = [];
 let blocker,  instructions, frame;
@@ -677,7 +679,6 @@ function createObjectGLTF(path, x, y ,z , scale){
         model.position.x = x; // once rescaled, position the model where needed
         model.position.z = z;
         model.position.y = y; // once rescaled, position the model where needed
-        models.push(model);
         scene.add(model);
 
     }, undefined, function ( error ) {
@@ -685,9 +686,67 @@ function createObjectGLTF(path, x, y ,z , scale){
         console.error( error );
 
     } );
-    console.log(models);
+}
+let dinoId;
+let treeId;
+let cubeId;
+let spiralId;
+let treeIndex;
+let cubeIndex;
+let spiralIndex;
+let dinoIndex;
+function createObjectGLTFD(path, x, y ,z , scale){
+    const loader = new THREE.GLTFLoader();
+    loader.load( path, function ( gltf ) {
+
+        let model = gltf.scene
+        model.scale.set(scale,scale,scale) // scale here
+        model.position.x = x; // once rescaled, position the model where needed
+        model.position.z = z;
+        model.position.y = y; // once rescaled, position the model where needed
+        if(path == './Objects/Dino/scene.gltf'){
+            dinoId = model.uuid;
+            model.rotation.y = 1.8;
+        } else if (path == './Objects/obj5/scene.gltf'){
+            treeId = model.uuid;
+        }
+        models.push(model);
+        if(models.length == 4){
+            models.forEach((smodel,index) => {
+                if(dinoId==smodel.uuid){
+                    dinoIndex = index;
+                    console.log(dinoIndex);
+                } else if (treeId == smodel.uuid){
+                    treeIndex = index;
+                    console.log(index);
+                }
+            })
+        }
+        scene.add(model);
+
+    }, undefined, function ( error ) {
+
+        console.error( error );
+
+    } );
 }
 
+function createSingleFrame(scene, path, x, y, z, xSize, ySize)
+{    
+    const geometry = new THREE.PlaneGeometry( xSize, ySize, 32 );
+    const textureTree = new THREE.TextureLoader().load(path);
+    const material = new THREE.MeshPhongMaterial({
+        map: textureTree,
+        side: THREE.DoubleSide
+    });
+    frame = new THREE.Mesh(geometry, material);
+    frame.position.x = x;
+    frame.position.y = y;
+    frame.position.z = z;
+    frame.rotation.y = Math.PI/2;
+
+    scene.add(frame);
+}
 
 function createScene(canvas) 
 {    
@@ -738,17 +797,18 @@ function createScene(canvas)
     // Creating walls
     createWalls(scene);
 
-    let eiffel= createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-250,33,450,2);
-    let streets = createObjectGLTF('./Objects/cafeteria.glb',-430,0,325,1.5);
-    let humano = createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',400,0.1,425,0.5);
-    let cubicle = createObjectGLTF('./Objects/cubicle.glb',400,0.1,490,70);
-    let pTriangule = createObjectGLTF('./Objects/penrosetriangule.glb',150,0.1,375,1.5);
-
-    createObjectGLTF('./Objects/obj5/scene.gltf', 100, 30, -100, 1);
-    createObjectGLTF('./Objects/obj2/scene.gltf', -150, 50, -100, 5);
-    createObjectGLTF('./Objects/obj3/scene.gltf', -100, 50, -100, 0.5);
-    createObjectGLTF('./Objects/op1/scene.gltf', 10, 100, -100, 2);
-    createObjectGLTF('./Objects/Dino/scene.gltf', 10, 20, 100, 4);
+    // let eiffel = createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-250,33,450,2);
+    // let streets = createObjectGLTF('./Objects/cafeteria.glb',-430,0,325,1.5);
+    // let humano = createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',400,0.1,425,0.5);
+    // let cubicle = createObjectGLTF('./Objects/cubicle.glb',400,0.1,490,70);
+    // let pTriangule = createObjectGLTF('./Objects/penrosetriangule.glb',150,0.1,375,1.5);
+    createSingleFrame(scene,'./js/assets/landscape.png',498,80,-300,100,130);
+    createSingleFrame(scene,'./js/assets/dino.jpg',498,80,-100,100,100);
+    createObjectGLTFD('./Objects/obj5/scene.gltf', 488, 40, -300, 0.8); //Tree
+    createObjectGLTFD('./Objects/obj2/scene.gltf', -150, 50, -100, 5);
+    createObjectGLTFD('./Objects/obj3/scene.gltf', -100, 50, -100, 0.5);
+    createObjectGLTFD('./Objects/Dino/scene.gltf', 493, 23, -120, 3);
+    
     initPointerLock();
 }
 
@@ -764,29 +824,43 @@ function onWindowResize() {
 function run() 
 {
     requestAnimationFrame( run );
-    if (models[0]) models[0].rotation.x += 0.01;
-    if (models[1]) models[1].rotation.x += 0.04;
-    if (models[2]){
-        console.log("right", right, "left", left)
+    if (models[treeIndex]) {
+        if(rightTree){
+            models[treeIndex].rotation.x += 0.005;
+            models[treeIndex].rotation.y += 0.01;
+            if(models[treeIndex].rotation.x  > 0.38){
+                rightTree = false;
+                leftTree = true;
+            }
+        }
+        else if(leftTree){
+            models[treeIndex].rotation.x -= 0.005;
+            models[treeIndex].rotation.y += 0.01;
+            if(models[treeIndex].rotation.x < -0.38){
+                leftTree = false;
+                rightTree = true;
+            }
+        }
+    } 
+    if (models[dinoIndex]) {
         if(right){
-            models[2].rotation.y += 0.02;
-            if(models[2].rotation.y  > 2.5){
+            models[dinoIndex].rotation.y += 0.02;
+            models[dinoIndex].position.z += 0.8;
+            if(models[dinoIndex].rotation.y  > 3){
                 right = false;
                 left = true;
             }
         }
         else if(left){
-            models[2].rotation.y -= 0.02;
-            if(models[2].rotation.y < 1){
+            models[dinoIndex].rotation.y -= 0.02;
+            models[dinoIndex].position.z -= 0.8;
+            if(models[dinoIndex].rotation.y < 1.8){
                 left = false;
                 right = true;
             }
         }
-        console.log(models[2].rotation.y);
-        
     } 
     if (models[3]) models[3].rotation.x += 0.09;
-    if (models[4]) models[4].rotation.x += 0.1;
     if ( controls.isLocked === true ) 
     {
         // for every sound in the frames

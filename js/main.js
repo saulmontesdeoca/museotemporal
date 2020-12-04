@@ -738,6 +738,12 @@ function createScene(canvas)
     // Creating walls
     createWalls(scene);
 
+    let eiffel= createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-250,33,450,2);
+    let streets = createObjectGLTF('./Objects/cafeteria.glb',-430,0,325,1.5);
+    let humano = createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',400,0.1,425,0.5);
+    let cubicle = createObjectGLTF('./Objects/cubicle.glb',400,0.1,490,70);
+    let pTriangule = createObjectGLTF('./Objects/penrosetriangule.glb',150,0.1,375,1.5);
+
     createObjectGLTF('./Objects/obj5/scene.gltf', 100, 30, -100, 1);
     createObjectGLTF('./Objects/obj2/scene.gltf', -150, 50, -100, 5);
     createObjectGLTF('./Objects/obj3/scene.gltf', -100, 50, -100, 0.5);

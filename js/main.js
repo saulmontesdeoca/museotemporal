@@ -747,7 +747,9 @@ let ptrianguleIndex;
 let manIndex;
 function createObjectGLTFL(path, x, y ,z , scale,color,intensity){
     
-    let objectlight = new THREE.SpotLight(color,intensity);
+    let objectlight = new THREE.SpotLight(color,intensity,0,1,1.04,1);
+
+    
 
     const loader = new THREE.GLTFLoader();
     loader.load( path, function ( gltf ) {
@@ -759,9 +761,11 @@ function createObjectGLTFL(path, x, y ,z , scale,color,intensity){
         model.position.z = z;
         model.position.y = y; // once rescaled, position the model where needed
 
-        objectlight.position.y=5;
+        objectlight.position.y=100;
         objectlight.target = model;
         scene.add(objectlight);
+        let helper = new THREE.SpotLightHelper(objectlight);
+        scene.add(helper);
         model.castShadow=true;
         model.receiveShadow=true;
         if(path == './Objects/cubicle.glb'){

@@ -15,6 +15,8 @@ let right = true;
 let left = false;
 let rightTree = true;
 let leftTree = false;
+let forward = true;
+let backwards = false;
 let drops = [];
 let count =0;
 let c = -1;
@@ -32,6 +34,7 @@ let velocity, direction;
 
 let floorUrl = "./js/assets/floor.jpg";
 let models = [];
+let modelsL = [];
 function createWalls(scene){
     let wallTexture = "./js/assets/wall_texture.jpg";
     let texture = new THREE.TextureLoader().load(wallTexture);
@@ -667,26 +670,12 @@ function createMTLObject(mtlpath,path,x,y,z,scale){
         objLoader.load(path, (object) => {
         object.position.set(x,y,z);
         object.scale.set(scale,scale,scale);
+        object.castShadow=true;
           scene.add(object)
         })
       })
 }
-function createObjectGLTF(path, x, y ,z , scale){
-    const loader = new THREE.GLTFLoader();
-    loader.load( path, function ( gltf ) {
-        let model = gltf.scene
-        model.scale.set(scale,scale,scale) // scale here
-        model.position.x = x; // once rescaled, position the model where needed
-        model.position.z = z;
-        model.position.y = y; // once rescaled, position the model where needed
-        scene.add(model);
 
-    }, undefined, function ( error ) {
-
-        console.error( error );
-
-    } );
-}
 let dinoId;
 let treeId;
 let cubeId;
@@ -748,12 +737,79 @@ function createSingleFrame(scene, path, x, y, z, xSize, ySize)
     scene.add(frame);
 }
 
+let streetsID;
+let cubicleID;
+let pTrianguleID;
+let manID;
+let streetsIndex;
+let cubicleIndex;
+let ptrianguleIndex;
+let manIndex;
+function createObjectGLTFL(path, x, y ,z , scale,color,intensity){
+    
+    let objectlight = new THREE.SpotLight(color,intensity);
+
+    const loader = new THREE.GLTFLoader();
+    loader.load( path, function ( gltf ) {
+
+        let model = gltf.scene
+
+        model.scale.set(scale,scale,scale) // scale here
+        model.position.x = x; // once rescaled, position the model where needed
+        model.position.z = z;
+        model.position.y = y; // once rescaled, position the model where needed
+
+        objectlight.position.y=5;
+        objectlight.target = model;
+        scene.add(objectlight);
+        model.castShadow=true;
+        model.receiveShadow=true;
+        if(path == './Objects/cubicle.glb'){
+            cubicleID = model.uuid;
+        } else if (path == './Objects/penrosetriangule.glb'){
+
+            pTrianguleID = model.uuid;
+        }
+        else if(path == './Objects/CesiumMan.glb'){
+            model.rotation.y= 300;
+            manID = model.uuid;
+        }
+        modelsL.push(model);
+        if(modelsL.length == 4){
+            modelsL.forEach((smodel,index) => {
+                if(cubicleID==smodel.uuid){
+                    cubicleIndex = index;
+                    console.log(cubicleIndex);
+                } else if (pTrianguleID == smodel.uuid){
+                    ptrianguleIndex = index;
+                    console.log(ptrianguleIndex);
+                }
+                else if(manID == smodel.uuid){
+                    manIndex = index;
+                    console.log(manIndex);
+                }
+            })
+        }
+        scene.add(model);
+
+    }, undefined, function ( error ) {
+
+        console.error( error );
+
+    } );
+}
+
+
+
 function createScene(canvas) 
 {    
     renderer = new THREE.WebGLRenderer( { canvas: canvas, antialias: true } );
 
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
+
+    renderer.shadowMap.enabled=true;
+    renderer.shadowMap.type= THREE.BasicShadowMap;
 
     window.addEventListener( 'resize', onWindowResize, false );
 
@@ -797,11 +853,16 @@ function createScene(canvas)
     // Creating walls
     createWalls(scene);
 
-    // let eiffel = createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-250,33,450,2);
-    // let streets = createObjectGLTF('./Objects/cafeteria.glb',-430,0,325,1.5);
-    // let humano = createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',400,0.1,425,0.5);
-    // let cubicle = createObjectGLTF('./Objects/cubicle.glb',400,0.1,490,70);
-    // let pTriangule = createObjectGLTF('./Objects/penrosetriangule.glb',150,0.1,375,1.5);
+    createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-250,33,450,2);
+    createObjectGLTFL('./Objects/cafeteria.glb',-430,0,325,1.5,0xa03870,0.5);
+    createObjectGLTFL('./Objects/CesiumMan.glb',-250,33,250,25,0xa03870,1);
+
+    createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',400,0.1,425,0.5);
+    createObjectGLTFL('./Objects/cubicle.glb',400,0.1,490,70,0xde9277,0.2);
+
+    createObjectGLTFL('./Objects/penrosetriangule.glb',150,3,375,1.5,0x839e7,1);
+    
+
     createSingleFrame(scene,'./js/assets/landscape.png',498,80,-300,100,130);
     createSingleFrame(scene,'./js/assets/dino.jpg',498,80,-100,100,100);
     createObjectGLTFD('./Objects/obj5/scene.gltf', 488, 40, -300, 0.8); //Tree
@@ -861,6 +922,39 @@ function run()
         }
     } 
     if (models[3]) models[3].rotation.x += 0.09;
+
+    if(modelsL[ptrianguleIndex]){
+        modelsL[ptrianguleIndex].rotation.y +=0.005;
+        
+    }
+
+    if(modelsL[cubicleIndex]){
+        modelsL[cubicleIndex].position.z -=1;
+        if(modelsL[cubicleIndex].position.z<=450){
+            modelsL[cubicleIndex].position.z=490;
+        }
+    }
+
+    if(modelsL[manIndex]){
+        if(forward){
+            modelsL[manIndex].rotation.y=300;
+            modelsL[manIndex].position.z+=0.3;
+            if(modelsL[manIndex].position.z>=400){
+                forward=false;
+                backwards=true;
+            }
+        }
+        else if(backwards){
+            modelsL[manIndex].rotation.y=Math.PI/2;
+            modelsL[manIndex].position.z-=0.3;
+            if(modelsL[manIndex].position.z<=250){
+                backwards=false;
+                forward=true;
+            }
+        }
+        
+    }
+
     if ( controls.isLocked === true ) 
     {
         // for every sound in the frames

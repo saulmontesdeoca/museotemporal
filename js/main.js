@@ -698,6 +698,12 @@ function createObjectGLTFD(path, x, y ,z , scale){
             model.rotation.y = 1.8;
         } else if (path == './Objects/obj5/scene.gltf'){
             treeId = model.uuid;
+        } else if(path == './Objects/obj2/scene.gltf'){
+            model.rotation.y = Math.PI/2;
+            spiralId = model.uuid;
+        } else if(path == './Objects/obj3/scene.gltf'){
+            model.rotation.y = Math.PI/2;
+            cubeId = model.uuid;
         }
         models.push(model);
         if(models.length == 4){
@@ -707,6 +713,12 @@ function createObjectGLTFD(path, x, y ,z , scale){
                     console.log(dinoIndex);
                 } else if (treeId == smodel.uuid){
                     treeIndex = index;
+                    console.log(index);
+                } else if(spiralId == smodel.uuid){
+                    spiralIndex = index;
+                    console.log(index);
+                } else if(cubeId == smodel.uuid){
+                    cubeIndex = index;
                     console.log(index);
                 }
             })
@@ -735,6 +747,23 @@ function createSingleFrame(scene, path, x, y, z, xSize, ySize)
     frame.rotation.y = Math.PI/2;
 
     scene.add(frame);
+}
+let circleFrame;
+function createSingleCircularFrame(scene, path, x, y, z, radius, n)
+{    
+    const geometry = new THREE.CircleGeometry( radius, n);
+    const textureTree = new THREE.TextureLoader().load(path);
+    const material = new THREE.MeshPhongMaterial({
+        map: textureTree,
+        side: THREE.DoubleSide
+    });
+    circleFrame = new THREE.Mesh(geometry, material);
+    circleFrame.position.x = x;
+    circleFrame.position.y = y;
+    circleFrame.position.z = z;
+    circleFrame.rotation.y = Math.PI/2;
+
+    scene.add(circleFrame);
 }
 
 let streetsID;
@@ -853,22 +882,23 @@ function createScene(canvas)
     // Creating walls
     createWalls(scene);
 
-    createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-250,33,450,2);
-    createObjectGLTFL('./Objects/cafeteria.glb',-430,0,325,1.5,0xa03870,0.5);
-    createObjectGLTFL('./Objects/CesiumMan.glb',-250,33,250,25,0xa03870,1);
+    // createMTLObject('./Objects/eiffel.mtl','./Objects/eiffel.obj',-250,33,450,2);
+    // createObjectGLTFL('./Objects/cafeteria.glb',-430,0,325,1.5,0xa03870,0.5);
+    // createObjectGLTFL('./Objects/CesiumMan.glb',-250,33,250,25,0xa03870,1);
 
-    createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',400,0.1,425,0.5);
-    createObjectGLTFL('./Objects/cubicle.glb',400,0.1,490,70,0xde9277,0.2);
+    // createMTLObject('./Objects/Human/Object/human.mtl','./Objects/Human/Object/human.obj',400,0.1,425,0.5);
+    // createObjectGLTFL('./Objects/cubicle.glb',400,0.1,490,70,0xde9277,0.2);
 
-    createObjectGLTFL('./Objects/penrosetriangule.glb',150,3,375,1.5,0x839e7,1);
+    // createObjectGLTFL('./Objects/penrosetriangule.glb',150,3,375,1.5,0x839e7,1);
     
 
-    createSingleFrame(scene,'./js/assets/landscape.png',498,80,-300,100,130);
-    createSingleFrame(scene,'./js/assets/dino.jpg',498,80,-100,100,100);
-    createObjectGLTFD('./Objects/obj5/scene.gltf', 488, 40, -300, 0.8); //Tree
-    createObjectGLTFD('./Objects/obj2/scene.gltf', -150, 50, -100, 5);
-    createObjectGLTFD('./Objects/obj3/scene.gltf', -100, 50, -100, 0.5);
-    createObjectGLTFD('./Objects/Dino/scene.gltf', 493, 23, -120, 3);
+    createSingleFrame(scene,'./js/assets/landscape.png',498,80,-350,100,130);
+    createSingleFrame(scene,'./js/assets/dino.jpg',498,80,-130,100,100);
+    createSingleCircularFrame(scene,'./js/assets/spiral.jpg',498, 80, 90, 65,50);
+    createObjectGLTFD('./Objects/obj5/scene.gltf', 488, 40, -350, 0.8); //Tree
+    createObjectGLTFD('./Objects/obj2/scene.gltf', 490, 80, 90, 5); //Spiral
+    createObjectGLTFD('./Objects/obj3/scene.gltf', 450, 70, 270, 0.4); //Cube
+    createObjectGLTFD('./Objects/Dino/scene.gltf', 493, 23, -150, 3); //Dino
     
     initPointerLock();
 }
@@ -885,6 +915,7 @@ function onWindowResize() {
 function run() 
 {
     requestAnimationFrame( run );
+    circleFrame.rotation.z += 0.5;
     if (models[treeIndex]) {
         if(rightTree){
             models[treeIndex].rotation.x += 0.005;
@@ -921,8 +952,10 @@ function run()
             }
         }
     } 
-    if (models[3]) models[3].rotation.x += 0.09;
-
+    if (models[spiralIndex]) models[spiralIndex].rotation.z += 0.09;
+    if(models[cubeIndex]){
+        models[cubeIndex].rotation.y += 0.015;
+    }
     if(modelsL[ptrianguleIndex]){
         modelsL[ptrianguleIndex].rotation.y +=0.005;
         
